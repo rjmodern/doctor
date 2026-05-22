@@ -1,0 +1,167 @@
+/* Medical Theme Palette */
+:root {
+    --primary-blue: #004a99;
+    --secondary-blue: #007bff;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+    --text-dark: #333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* Sticky Header */
+header {
+    position: sticky;
+    top: 0;
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 1rem 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.hospital-info {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.hospital-info h1 {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+}
+
+.hospital-info p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Navigation Menu */
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: var(--secondary-blue);
+    padding: 10px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    margin: 2px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+nav a:hover, nav a.active {
+    background-color: var(--primary-blue);
+}
+
+/* Content Area */
+main {
+    padding: 40px 0;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Action Buttons (Home Page) */
+.day-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-day {
+    display: block;
+    padding: 20px;
+    background: var(--primary-blue);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.btn-day:hover {
+    transform: translateY(-5px);
+    background: #003366;
+}
+
+/* Table Design */
+.filter-section {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.table-container {
+    overflow-x: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: var(--primary-blue);
+    color: white;
+    text-align: left;
+    padding: 12px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.shift-header {
+    background-color: #e9ecef;
+    font-weight: bold;
+    color: var(--primary-blue);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .hospital-info h1 { font-size: 1.4rem; }
+    nav a { font-size: 0.8rem; padding: 6px 10px; }
+    th, td { font-size: 0.85rem; padding: 8px; }
+}

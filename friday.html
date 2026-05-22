@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>শুক্রবাররে শিডিউল - খাজা বদরুদদোজা মডার্ন হাসপাতাল</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container hospital-info">
+            <h1>খাজা বদরুদদোজা মডার্ন হাসপাতাল</h1>
+            <p>আজিজ ম্যানশন, সফিপুর, কালিয়াকৈর, গাজীপুর</p>
+            <p>মোবাঃ ০১৭৭৬-৬০৬২৬২, ০১৬৮৭৬২৫৫৬৫</p>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="saturday.html">শনিবার</a>
+            <a href="sunday.html">রবিবার</a>
+            <a href="monday.html">সোমবার</a>
+            <a href="tuesday.html">মঙ্গলবার</a>
+            <a href="wednesday.html">বুধবার</a>
+            <a href="thursday.html">বৃহস্পতিবার</a>
+            <a href="friday.html" class="active">শুক্রবার</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2 style="text-align: center; color: #004a99; margin-bottom: 20px;">শুক্রবার যে সকল বিশেষজ্ঞ ডাক্তারগণ চেম্বার করবেন</h2>
+        
+        <!-- বিভাগ ফিল্টার -->
+        <div class="filter-section">
+            <label for="deptFilter"><b>বিভাগ অনুযায়ী খুঁজুন:</b></label>
+            <select id="deptFilter" onchange="filterDoctors()">
+                <option value="all">সকল বিভাগ</option>
+                <option value="মেডিসিন">মেডিসিন ও নিউরোমেডিসিন (Medicine)</option>
+                <option value="গাইনী">গাইনী ও প্রসূতি (Gynecology)</option>
+                <option value="শিশু">নবজাতক ও শিশু (Pediatrics)</option>
+                <option value="অর্থোপেডিক">অর্থোপেডিক ও হাড় জোড়া (Orthopedic)</option>
+                <option value="চর্ম">চর্ম, যৌন ও এলার্জি (Dermatology)</option>
+                <option value="হৃদরোগ">হৃদরোগ ও বক্ষব্যাধি (Cardiology/Chest)</option>
+                <option value="চক্ষু">চক্ষু (Eye)</option>
+                <option value="দন্ত">দন্ত (Dental)</option>
+                <option value="সার্জন">সার্জন ও কিডনি (Surgeon/Kidney)</option>
+                <option value="নাক">নাক, কান ও গলা (ENT)</option>
+                <option value="ফিজিওথেরাপি">ফিজিওথেরাপি ও রেডিওলজি</option>
+            </select>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>SL</th>
+                        <th>ডাক্তারদের নাম</th>
+                        <th>বিশেষজ্ঞতা</th>
+                        <th>যে স্থান হইতে আগত</th>
+                        <th>রুম</th>
+                        <th>সময়</th>
+                    </tr>
+                </thead>
+                <tbody id="doctorTable">
+                    <!-- সকালের শিফট -->
+                    <tr class="shift-header"><td colspan="6">সকাল (Morning Shift)</td></tr>
+                    <tr class="doctor-row" data-dept="মেডিসিন"><td>1</td><td>অধ্যাপক ডা. এম. এস জহিরুল হক চৌধুরী</td><td>নিউরোমেডিসিন বিশেষজ্ঞ</td><td>ন্যাশনাল ইনস্টিটিউট অব নিউরোসায়েন্সেস</td><td>147</td><td>11:00 AM - 7:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="চর্ম"><td>2</td><td>অধ্যাপক ডা. মোঃ আরিফ চৌধুরী</td><td>চর্ম, যৌন ও কসমেটিক্স সার্জন</td><td>আশিয়ান মেডিকেল কলেজ</td><td>160</td><td>10:00 AM - 7:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="মেডিসিন"><td>3</td><td>ডা. সৈয়দ রেজওয়ান কবির</td><td>হৃদরোগ, মেডিসিন ও বাতজ্বর বিশেষজ্ঞ</td><td>ঢাকা মেডিকেল কলেজ হাসপাতাল</td><td>N/A</td><td>10:00 AM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="গাইনী"><td>4</td><td>সহযোগী অধ্যাপক ডা. আয়শা সিদ্দিকা</td><td>গাইনী বিশেষজ্ঞ ও সার্জন</td><td>স্যার সলিমুল্লাহ মেডিকেল কলেজ</td><td>119</td><td>10:00 AM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="মেডিসিন"><td>5</td><td>সহকারী অধ্যাপক ডাঃ বিশ্বজিৎ কুমার বিশ্বাস</td><td>বক্ষব্যাধি ও মেডিসিন বিশেষজ্ঞ</td><td>জাতীয় বক্ষব্যাধি ইনস্টিটিউট</td><td>N/A</td><td>10:00 AM - 3:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="সার্জন"><td>6</td><td>সহযোগী অধ্যাপক ডা. মোঃ সুমন রহমান</td><td>জেনারেল ও ল্যাপারোস্কপিক সার্জন</td><td>শহীদ মনসুর আলী মেডিকেল</td><td>144</td><td>10:00 AM - 4:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="গাইনী"><td>7</td><td>ডা. মাহমুদা খাতুন</td><td>গাইনী বিশেষজ্ঞ ও সার্জন</td><td>পিজি হাসপাতাল</td><td>119</td><td>10:00 AM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="নাক"><td>8</td><td>ডা. সাইফুল ইসলাম</td><td>নাক, কান, গলা ও হেড নেক সার্জন</td><td>জাতীয় নাক, কান, গলা ইনস্টিটিউট</td><td>145</td><td>10:00 AM - 9:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="অর্থোপেডিক"><td>9</td><td>ডা. মোঃ জাহাঙ্গীর আলম</td><td>অর্থোপেডিক্স ও ট্রমা বিশেষজ্ঞ সার্জন</td><td>পঙ্গু হাসপাতাল</td><td>118</td><td>10:00 AM - 7:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="মেডিসিন"><td>10</td><td>সহকারি অধ্যাপক ডা. তাহমিদ মাহবুব</td><td>গ্যাস্ট্রো-লিভার ও মেডিসিন বিশেষজ্ঞ</td><td>শেখ রাসেল গ্যাস্ট্রোলিভার ইনস্টিটিউট</td><td>-2</td><td>10:00 AM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="মেডিসিন"><td>11</td><td>সহকারী অধ্যাপক ডাঃ মোঃ কায়সারুল ইসলাম</td><td>মেডিসিন, ডায়াবেটিস ও হৃদরোগ বিশেষজ্ঞ</td><td>শহীদ তাজউদ্দিন আহমেদ মেডিকেল</td><td>117</td><td>10:00 AM - 6:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="শিশু"><td>12</td><td>ডা. মোহাম্মদ আবু হাসনাত</td><td>শিশুরোগ বিশেষজ্ঞ</td><td>ঢাকা শিশু হাসপাতাল</td><td>158</td><td>10:00 AM - 2:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="গাইনী"><td>13</td><td>ডা. নারগীছ আক্তার</td><td>স্ত্রীরোগ ও প্রসূতীবিদ্যা বিশেষজ্ঞ</td><td>CMH</td><td>121</td><td>10:00 AM - 2:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="শিশু"><td>14</td><td>ডা. ফারজানা আক্তার দিতি</td><td>শিশুরোগ বিশেষজ্ঞ</td><td>শহীদ তাজউদ্দিন আহমেদ মেডিকেল</td><td>-2</td><td>10:00 AM - 1:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="গাইনী"><td>15</td><td>ডা. নিগার সুলতানা</td><td>গাইনী ও প্রসূতি রোগ বিশেষজ্ঞ সার্জন</td><td>ঢাকা মেডিকেল কলেজ হাসপাতাল</td><td>159</td><td>10:00 AM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="অর্থোপেডিক"><td>16</td><td>ডা. মোঃ নাজমুল হাসান</td><td>অর্থোপেডিক ও ট্রমা বিশেষজ্ঞ</td><td>পিজি হাসপাতাল</td><td>114</td><td>10:00 AM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="চক্ষু"><td>17</td><td>সহযোগী অধ্যাপক ডাঃ মোঃ মহর আলী</td><td>চক্ষু বিশেষজ্ঞ ও সার্জন</td><td>কর্ণেল মালেক মেডিকেল কলেজ</td><td>N/A</td><td>10:00 AM - 3:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="চর্ম"><td>18</td><td>ডা. ফাতিমা ওয়াহিদা</td><td>চর্ম, যৌন ও এলার্জি বিশেষজ্ঞ</td><td>শহীদ সোহরাওয়ার্দী মেডিকেল</td><td>155</td><td>10:00 AM - 5:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="দন্ত"><td>19</td><td>ডা. এম. আরফান মাহমুদ</td><td>মুখ ও দন্ত রোগ বিশেষজ্ঞ সার্জন</td><td>শহীদ সোহরাওয়ার্দী মেডিকেল</td><td>N/A</td><td>10:00 AM - 2:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="দন্ত"><td>20</td><td>ডা. রিজিয়া পারভীন শিখা</td><td>ওরাল এন্ড ডেন্টাল সার্জন</td><td>ঢাকা ডেন্টাল কলেজ</td><td>N/A</td><td>11:00 AM - 1:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="ফিজিওথেরাপি"><td>21</td><td>ডা. খন্দকার আবুল হোসাইন</td><td>ফিজিওথেরাপি বিশেষজ্ঞ</td><td>পঙ্গু হাসপাতাল</td><td>N/A</td><td>8:00 AM - 12:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="ফিজিওথেরাপি"><td>22</td><td>ডা. মুহাম্মদ হাসিফ</td><td>ফিজিওথেরাপি বিশেষজ্ঞ</td><td>গণস্বাস্থ্য</td><td>N/A</td><td>9:00 AM - 9:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="ফিজিওথেরাপি"><td>23</td><td>সহযোগী অধ্যাপক ডা. আশীষ কুমার সরকার</td><td>রেডিওলজি ও ইমেজিং বিশেষজ্ঞ</td><td>BSMMU (পিজি হাসপাতাল)</td><td>103</td><td>10:00 AM - 7:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="গাইনী"><td>24</td><td>ডা. রুমা আক্তার</td><td>গাইনী রোগ ও সনোলজিস্ট</td><td>কেবিএমএইচ</td><td>106</td><td>10:00 AM - 8:00 PM</td></tr>
+
+                    <!-- বিকেলের শিফট -->
+                    <tr class="shift-header"><td colspan="6">বিকেল (Afternoon Shift)</td></tr>
+                    <tr class="doctor-row" data-dept="সার্জন"><td>1</td><td>অধ্যাপক ডা. মৃন্ময় বিশ্বাস</td><td>কিডনী, ইউরোলজী ও সার্জারী বিশেষজ্ঞ</td><td>শেখ মুজিব মেডিকেল কলেজ</td><td>157</td><td>3:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="শিশু"><td>2</td><td>অধ্যাপক ডা. শিশির রঞ্জন দাস</td><td>নবজাতক ও শিশু বিশেষজ্ঞ</td><td>ঢাকা মেডিকেল কলেজ হাসপাতাল</td><td>115</td><td>3:00 PM - 9:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="নাক"><td>3</td><td>অধ্যাপক ডা. দেলোয়ার হোসেন</td><td>নাক, কান, গলা ও হেড নেক সার্জন</td><td>পিজি হাসপাতাল</td><td>149</td><td>5:00 PM - 6:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="সার্জন"><td>4</td><td>ডা. কল্লোল দে</td><td>জেনারেল ও সার্জিক্যাল অনকোলজিস্ট</td><td>জাতীয় ক্যান্সার গবেষনা ইনস্টিটিউট</td><td>144</td><td>4:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="চর্ম"><td>5</td><td>সহকারী অধ্যাপক ডা. সোহেল মীর্জা</td><td>চর্ম, এলার্জি ও যৌন রোগ বিশেষজ্ঞ</td><td>শহীদ তাজউদ্দীন আহমদ মেডিকেল</td><td>156</td><td>4:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="শিশু"><td>6</td><td>ডা. সাব্বির আহমেদ ভূঁইয়া</td><td>নবজাতক, শিশু ও কিশোর বিশেষজ্ঞ</td><td>শহীদ তাজউদ্দিন আহমেদ মেডিকেল</td><td>158</td><td>4:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="অর্থোপেডিক"><td>7</td><td>ডা. মোঃ আমান উল্লাহ কবির (মিলটন)</td><td>হাড় জোড়া ও মেরুদন্ড রোগ বিশেষজ্ঞ</td><td>পিজি হাসপাতাল</td><td>118</td><td>2:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="সার্জন"><td>8</td><td>সহযোগী অধ্যাপক ডা. এ.কে এম তারিকুল হাসান</td><td>কিডনী, মেডিসিন ও উচ্চ রক্তচাপ বিশেষজ্ঞ</td><td>ইষ্ট-ওয়েষ্ট মেডিকেল কলেজ</td><td>120</td><td>4:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="মেডিসিন"><td>9</td><td>সহকারী অধ্যাপক ডা. মোঃ বদিউজ্জামান</td><td>মেডিসিন, হৃদরোগ ও বাত জ্বর বিশেষজ্ঞ</td><td>শহীদ তাজউদ্দিন আহমেদ মেডিকেল</td><td>116</td><td>4:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="মেডিসিন"><td>10</td><td>ডা. মোঃ মাহবুব ইসলাম</td><td>বক্ষব্যাধি ও মেডিসিন বিশেষজ্ঞ</td><td>জাতীয় বক্ষব্যাধি ইন্সটিটিউট</td><td>151</td><td>4:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="চক্ষু"><td>11</td><td>ডা. ফরিদ উদ্দীন আহমাদ</td><td>জেনারেল চক্ষু চিকিৎসক</td><td>চক্ষু হাসপাতাল, ঢাকা</td><td>N/A</td><td>4:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="মেডিসিন"><td>12</td><td>সহযোগী অধ্যাপক ডা. এফ.আর. আল-মাহমুদ</td><td>মেডিসিন, বাত ব্যথা ও প্যারালাইসিস বিশেষজ্ঞ</td><td>টিএমএসএস মেডিকেল কলেজ</td><td>160</td><td>3:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="মেডিসিন"><td>13</td><td>ডা. প্রবীর কুমার সরকার</td><td>বাত ও ব্যথা রোগ বিশেষজ্ঞ</td><td>উপজেলা স্বাস্থ্য কর্মকর্তা, টাঙ্গাইল</td><td>155</td><td>4:00 PM - 8:00 PM</td></tr>
+                    <tr class="doctor-row" data-dept="all"><td>14</td><td>KBMH Others</td><td>অন্যান্য (Others)</td><td>KBMH</td><td>102</td><td>12:00 PM - 11:59 AM</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
