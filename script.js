@@ -1,88 +1,157 @@
+/* 
+================================================================
+   KHAJA BADRUDDOJA MODERN HOSPITAL - MAIN JAVASCRIPT
+================================================================
+*/
+
+// ১. পেজ লোড হওয়ার সাথে সাথে যা যা চলবে
+document.addEventListener('DOMContentLoaded', () => {
+    // হোম পেজের ঘড়ি সচল করা (যদি ঘড়ির আইডি থাকে)
+    if (document.getElementById('digitalClock')) {
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
+});
+
+/* -----------------------------------------------------------
+   A. দিনভিত্তিক টেবিল ফিল্টার (শনি - শুক্রবার পেজের জন্য)
+----------------------------------------------------------- */
 function filterDoctors() {
-
     const filterValue = document.getElementById("deptFilter").value.toLowerCase();
-
     const rows = document.querySelectorAll(".doctor-row");
 
-
-
     rows.forEach(row => {
-
         const specialty = row.getAttribute("data-dept").toLowerCase();
-
-        if (filterValue === "all" || specialty === filterValue) {
-
+        // যদি 'সকল বিভাগ' সিলেক্ট থাকে অথবা বিভাগ মিলে যায়
+        if (filterValue === "all" || specialty.includes(filterValue)) {
             row.style.display = "";
-
         } else {
-
             row.style.display = "none";
-
         }
-
     });
-
 }
-// ১. ডিজিটাল ঘড়ি
+
+/* -----------------------------------------------------------
+   B. ডিজিটাল ঘড়ি ও তারিখ (হোম পেজ)
+----------------------------------------------------------- */
 function updateClock() {
-    const now = new Date();
-    document.getElementById('digitalClock').innerText = now.toLocaleTimeString();
-    document.getElementById('currentDate').innerText = now.toLocaleDateString('bn-BD', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-}
-setInterval(updateClock, 1000);
+    const clockElement = document.getElementById('digitalClock');
+    const dateElement = document.getElementById('currentDate');
 
-// ২. স্টপওয়াচ/টাইমার
+    if (clockElement && dateElement) {
+        const now = new Date();
+        // সময়
+        clockElement.innerText = now.toLocaleTimeString('en-US', { hour12: true });
+        // তারিখ (বাংলায়)
+        dateElement.innerText = now.toLocaleDateString('bn-BD', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    }
+}
+
+/* -----------------------------------------------------------
+   C. স্টপওয়াচ / টাইমার (হোম পেজ)
+----------------------------------------------------------- */
 let timerInterval;
 let seconds = 0;
+
 function startTimer() {
+    const timerDisplay = document.getElementById('timerDisplay');
+    if (!timerDisplay) return;
+
     clearInterval(timerInterval);
     timerInterval = setInterval(() => {
         seconds++;
         let hrs = Math.floor(seconds / 3600);
         let mins = Math.floor((seconds % 3600) / 60);
         let secs = seconds % 60;
-        document.getElementById('timerDisplay').innerText = 
+        
+        timerDisplay.innerText = 
             `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
     }, 1000);
 }
-function stopTimer() { clearInterval(timerInterval); }
-function resetTimer() { clearInterval(timerInterval); seconds = 0; document.getElementById('timerDisplay').innerText = "00:00:00"; }
 
-// ৩. বয়স ক্যালকুলেটর
+function stopTimer() { 
+    clearInterval(timerInterval); 
+}
+
+function resetTimer() { 
+    clearInterval(timerInterval); 
+    seconds = 0; 
+    const timerDisplay = document.getElementById('timerDisplay');
+    if (timerDisplay) timerDisplay.innerText = "00:00:00"; 
+}
+
+/* -----------------------------------------------------------
+   D. বয়স ক্যালকুলেটর (হোম পেজ)
+----------------------------------------------------------- */
 function calculateAge() {
-    const birthDate = new Date(document.getElementById('birthDate').value);
+    const birthInput = document.getElementById('birthDate').value;
+    const resultElement = document.getElementById('ageResult');
+    
+    if (!birthInput) {
+        resultElement.innerText = "দয়া করে জন্ম তারিখ সিলেক্ট করুন।";
+        return;
+    }
+
+    const birthDate = new Date(birthInput);
     const today = new Date();
-    if (!birthDate.getTime()) return;
     
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
-    document.getElementById('ageResult').innerText = `আপনার বর্তমান বয়স: ${age} বছর`;
+    
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    
+    resultElement.innerHTML = `<span style="color:#0056b3">আপনার বর্তমান বয়স: ${age} বছর</span>`;
 }
 
-// ৪. গ্লোবাল ডাক্তার সার্চ লজিক
+/* -----------------------------------------------------------
+   E. গ্লোবাল ডাক্তার সার্চ লজিক (হোম পেজ)
+----------------------------------------------------------- */
 function globalDoctorSearch() {
     const query = document.getElementById('doctorSearchInput').value.toLowerCase();
     const resultsDiv = document.getElementById('searchResults');
+    
+    if (!resultsDiv) return;
     resultsDiv.innerHTML = "";
     
+    // যদি সার্চ বক্সে কিছু না থাকে বা ২ অক্ষরের কম থাকে
     if (query.length < 2) return;
 
-    // doctorsData আসবে doctors_data.js থেকে
-    const filtered = doctorsData.filter(d => d.name.toLowerCase().includes(query));
+    // doctorsData গ্লোবাল অ্যারে থেকে সার্চ (যা doctors_data.js এ আছে)
+    const filtered = doctorsData.filter(doc => 
+        doc.name.toLowerCase().includes(query) || 
+        doc.specialty.toLowerCase().includes(query)
+    );
+
+    if (filtered.length === 0) {
+        resultsDiv.innerHTML = "<p style='padding:15px; color:red;'>কোনো ডাক্তার পাওয়া যায়নি।</p>";
+        return;
+    }
 
     filtered.forEach(doc => {
         const div = document.createElement('div');
         div.className = "search-item";
-        const statusClass = doc.status === "OFF" ? "status-off" : "status-on";
-        const statusText = doc.status === "OFF" ? "আজ চেম্বার বন্ধ" : "চেম্বার খোলা";
+        
+        // স্ট্যাটাস কন্ট্রোল (চেম্বার খোলা না বন্ধ)
+        const isOff = doc.status.toUpperCase() === "OFF";
+        const statusClass = isOff ? "status-off" : "status-on";
+        const statusText = isOff ? "আজ চেম্বার বন্ধ" : "চেম্বার খোলা";
         
         div.innerHTML = `
-            <div>
+            <div style="flex: 1;">
                 <strong>${doc.name}</strong> <br>
-                <small>${doc.specialty} | বসার দিন: ${doc.days}</small>
+                <small>${doc.specialty} <br> বসার দিন: ${doc.days}</small>
             </div>
-            <div class="${statusClass}">${statusText}</div>
+            <div class="${statusClass}" style="text-align:right; font-size: 13px;">
+                ${statusText} <br>
+                <span style="font-size:11px; color:#666;">Room: ${doc.room || 'N/A'}</span>
+            </div>
         `;
         resultsDiv.appendChild(div);
     });
