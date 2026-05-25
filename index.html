@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>খাজা বদরুদদোজা মডার্ন হাসপাতাল - ড্যাশবোর্ড</title>
+    <title>খাজা বদরুদদোজা মডার্ন হাসপাতাল - হোম</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
+    <!-- হেডার সেকশন -->
     <header>
-        <div class="container hospital-brand">
-            <h1 class="logo-text">খাজা বদরুদদোজা <span>মডার্ন হাসপাতাল</span></h1>
-            <p class="address">আজিজ ম্যানশন, সফিপুর, কালিয়াকৈর, গাজীপুর</p>
+        <div class="container hospital-info">
+            <h1>খাজা বদরুদদোজা <span>মডার্ন হাসপাতাল</span></h1>
+            <p><i class="fas fa-map-marker-alt"></i> আজিজ ম্যানশন, সফিপুর, কালিয়াকৈর, গাজীপুর</p>
+            <p><i class="fas fa-phone-alt"></i> সিরিয়ালের জন্যঃ ০১৭৭৬-৬০৬২৬২, ০১৬৮৭৬২৫৫৬৫</p>
         </div>
-        <nav>
+        
+        <!-- নেভিগেশন মেনু -->
+        <nav id="sticky-nav">
             <div class="container">
                 <ul class="nav-menu">
                     <li><a href="index.html" class="active">হোম</a></li>
@@ -30,69 +34,64 @@
         </nav>
     </header>
 
-    <main class="container">
-        <!-- ডিজিটাল ঘড়ি ও টাইমার সেকশন -->
-        <section class="tools-grid">
-            <div class="tool-card clock-card">
-                <h3><i class="far fa-clock"></i> ডিজিটাল ঘড়ি</h3>
-                <div id="digitalClock" class="clock">00:00:00 PM</div>
-                <p id="currentDate"></p>
-            </div>
-
-            <div class="tool-card timer-card">
-                <h3><i class="fas fa-stopwatch"></i> স্টপওয়াচ</h3>
-                <div id="timerDisplay" class="timer">00:00:00</div>
-                <div class="timer-controls">
-                    <button onclick="startTimer()">Start</button>
-                    <button onclick="stopTimer()">Stop</button>
-                    <button onclick="resetTimer()">Reset</button>
+    <main>
+        <!-- ব্যানার সেকশন -->
+        <section class="banner-section">
+            <div class="container">
+                <div class="banner-content">
+                    <h2>সুস্থ থাকুন, আমাদের সাথেই থাকুন</h2>
+                    <p>সঠিক রোগ নির্ণয় ও অভিজ্ঞ বিশেষজ্ঞ ডাক্তারদের সমন্বয়ে আধুনিক চিকিৎসাসেবা এখন আপনার হাতের নাগালে।</p>
                 </div>
             </div>
-
-            <div class="tool-card calc-card">
-                <h3><i class="fas fa-calculator"></i> বয়স ক্যালকুলেটর</h3>
-                <input type="date" id="birthDate">
-                <button onclick="calculateAge()">হিসাব করুন</button>
-                <div id="ageResult" class="result">আপনার বয়স এখানে দেখাবে</div>
-            </div>
         </section>
 
-        <!-- ডাক্তার সার্চ ও চেম্বার স্ট্যাটাস -->
-        <section class="search-section">
+        <!-- সাপ্তাহিক শিডিউল বাটন গ্রিড -->
+        <section class="container schedule-grid">
             <div class="section-heading">
-                <h3>ডাক্তার খুঁজুন ও শিডিউল দেখুন</h3>
+                <h3>সাপ্তাহিক ডাক্তারের তালিকা</h3>
                 <div class="underline"></div>
+                <p>নিচের বাটন থেকে নির্দিষ্ট দিনটি সিলেক্ট করে ডাক্তারের তালিকা দেখুন</p>
             </div>
             
-            <div class="search-box-container">
-                <input type="text" id="doctorSearchInput" placeholder="ডাক্তারের নাম লিখুন (যেমন: শিশির রঞ্জন)..." onkeyup="globalDoctorSearch()">
-                <div id="searchResults" class="search-results-list"></div>
-            </div>
-        </section>
-
-        <!-- দ্রুত নেভিগেশন (সাপ্তাহিক দিন) -->
-        <section class="day-navigation">
-            <h4 style="margin-bottom: 15px;">সরাসরি দিনের শিডিউল দেখুন:</h4>
-            <div class="day-btns">
-                <a href="saturday.html">শনিবার</a>
-                <a href="sunday.html">রবিবার</a>
-                <a href="monday.html">সোমবার</a>
-                <a href="tuesday.html">মঙ্গলবার</a>
-                <a href="wednesday.html">বুধবার</a>
-                <a href="thursday.html">বৃহস্পতিবার</a>
-                <a href="friday.html">শুক্রবার</a>
+            <div class="day-buttons-container">
+                <a href="saturday.html" class="day-box">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>শনিবারের শিডিউল</span>
+                </a>
+                <a href="sunday.html" class="day-box">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>রবিবারের শিডিউল</span>
+                </a>
+                <a href="monday.html" class="day-box">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>সোমবারের শিডিউল</span>
+                </a>
+                <a href="tuesday.html" class="day-box">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>মঙ্গলবারের শিডিউল</span>
+                </a>
+                <a href="wednesday.html" class="day-box">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>বুধবারের শিডিউল</span>
+                </a>
+                <a href="thursday.html" class="day-box">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>বৃহস্পতিবারের শিডিউল</span>
+                </a>
+                <a href="friday.html" class="day-box friday-highlight">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>শুক্রবাররের শিডিউল</span>
+                </a>
             </div>
         </section>
     </main>
 
+    <!-- ফুটার -->
     <footer>
         <div class="container">
-            <p>&copy; ২০২৪ খাজা বদরুদদোজা মডার্ন হাসপাতাল।</p>
+            <p>&copy; ২০২৪ খাজা বদরুদদোজা মডার্ন হাসপাতাল। সর্বস্বত্ব সংরক্ষিত।</p>
         </div>
     </footer>
 
-    <!-- ডাটা ফাইল ও লজিক -->
-    <script src="doctors_data.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
