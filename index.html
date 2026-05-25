@@ -1,60 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khaja Badruddoja Modern Hospital - Home</title>
+    <title>খাজা বদরুদদোজা মডার্ন হাসপাতাল - ড্যাশবোর্ড</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+
     <header>
-        <div class="container hospital-info">
-            <h1>Khaja Badruddoja Modern Hospital</h1>
-            <p>Aziz Mansion, Shafipur, Kaliakoir, Gazipur</p>
-            <p>Call: 01776-606262, 01687625565</p>
+        <div class="container hospital-brand">
+            <h1 class="logo-text">খাজা বদরুদদোজা <span>মডার্ন হাসপাতাল</span></h1>
+            <p class="address">আজিজ ম্যানশন, সফিপুর, কালিয়াকৈর, গাজীপুর</p>
         </div>
         <nav>
-            <a href="index.html" class="active">Home</a>
-            <a href="saturday.html">Saturday</a>
-            <a href="sunday.html">Sunday</a>
-            <a href="monday.html">Monday</a>
-            <a href="tuesday.html">Tuesday</a>
-            <a href="wednesday.html">Wednesday</a>
-            <a href="thursday.html">Thursday</a>
-            <a href="friday.html">Friday</a>
+            <div class="container">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active">হোম</a></li>
+                    <li><a href="saturday.html">শনিবার</a></li>
+                    <li><a href="sunday.html">রবিবার</a></li>
+                    <li><a href="monday.html">সোমবার</a></li>
+                    <li><a href="tuesday.html">মঙ্গলবার</a></li>
+                    <li><a href="wednesday.html">বুধবার</a></li>
+                    <li><a href="thursday.html">বৃহস্পতিবার</a></li>
+                    <li><a href="friday.html">শুক্রবার</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
 
     <main class="container">
-        <!-- Hero Section -->
-        <section class="hero">
-            <h2>আমাদের আধুনিক স্বাস্থ্যসেবায় আপনাকে স্বাগতম</h2>
-            <p>খাজা বদরুদ্দোজা মডার্ন হাসপাতালে আমরা উন্নত প্রযুক্তি এবং অভিজ্ঞ ডাক্তারদের মাধ্যমে সঠিক চিকিৎসা নিশ্চিত করি।</p>
+        <!-- ডিজিটাল ঘড়ি ও টাইমার সেকশন -->
+        <section class="tools-grid">
+            <div class="tool-card clock-card">
+                <h3><i class="far fa-clock"></i> ডিজিটাল ঘড়ি</h3>
+                <div id="digitalClock" class="clock">00:00:00 PM</div>
+                <p id="currentDate"></p>
+            </div>
+
+            <div class="tool-card timer-card">
+                <h3><i class="fas fa-stopwatch"></i> স্টপওয়াচ</h3>
+                <div id="timerDisplay" class="timer">00:00:00</div>
+                <div class="timer-controls">
+                    <button onclick="startTimer()">Start</button>
+                    <button onclick="stopTimer()">Stop</button>
+                    <button onclick="resetTimer()">Reset</button>
+                </div>
+            </div>
+
+            <div class="tool-card calc-card">
+                <h3><i class="fas fa-calculator"></i> বয়স ক্যালকুলেটর</h3>
+                <input type="date" id="birthDate">
+                <button onclick="calculateAge()">হিসাব করুন</button>
+                <div id="ageResult" class="result">আপনার বয়স এখানে দেখাবে</div>
+            </div>
         </section>
 
-        <!-- Services Section -->
-        <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-            <div style="background: white; padding: 20px; border-radius: 8px; border-left: 5px solid #004a99; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                <h3 style="color: #004a99;">২৪/৭ জরুরি সেবা</h3>
-                <p>যেকোনো জরুরি প্রয়োজনে আমাদের দক্ষ টিম সবসময় প্রস্তুত।</p>
+        <!-- ডাক্তার সার্চ ও চেম্বার স্ট্যাটাস -->
+        <section class="search-section">
+            <div class="section-heading">
+                <h3>ডাক্তার খুঁজুন ও শিডিউল দেখুন</h3>
+                <div class="underline"></div>
             </div>
-            <div style="background: white; padding: 20px; border-radius: 8px; border-left: 5px solid #004a99; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                <h3 style="color: #004a99;">আধুনিক ডায়াগনস্টিক</h3>
-                <p>সঠিক রোগ নির্ণয়ে আমাদের আছে অত্যাধুনিক প্যাথলজি ল্যাব।</p>
+            
+            <div class="search-box-container">
+                <input type="text" id="doctorSearchInput" placeholder="ডাক্তারের নাম লিখুন (যেমন: শিশির রঞ্জন)..." onkeyup="globalDoctorSearch()">
+                <div id="searchResults" class="search-results-list"></div>
             </div>
-            <div style="background: white; padding: 20px; border-radius: 8px; border-left: 5px solid #004a99; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                <h3 style="color: #004a99;">অভিজ্ঞ বিশেষজ্ঞ</h3>
-                <p>দেশের স্বনামধন্য হাসপাতালের অভিজ্ঞ ডাক্তারগণ এখানে নিয়মিত বসেন।</p>
-            </div>
-        </div>
+        </section>
 
-        <section style="text-align: center; margin-top: 40px; padding: 20px; background: #e9ecef; border-radius: 8px;">
-            <h3>ডাক্তারের শিডিউল দেখতে উপরের মেনু থেকে নির্দিষ্ট দিনটি সিলেক্ট করুন।</h3>
+        <!-- দ্রুত নেভিগেশন (সাপ্তাহিক দিন) -->
+        <section class="day-navigation">
+            <h4 style="margin-bottom: 15px;">সরাসরি দিনের শিডিউল দেখুন:</h4>
+            <div class="day-btns">
+                <a href="saturday.html">শনিবার</a>
+                <a href="sunday.html">রবিবার</a>
+                <a href="monday.html">সোমবার</a>
+                <a href="tuesday.html">মঙ্গলবার</a>
+                <a href="wednesday.html">বুধবার</a>
+                <a href="thursday.html">বৃহস্পতিবার</a>
+                <a href="friday.html">শুক্রবার</a>
+            </div>
         </section>
     </main>
 
-    <footer style="text-align: center; padding: 20px; margin-top: 50px; background: #333; color: white;">
-        <p>&copy; 2024 Khaja Badruddoja Modern Hospital. All Rights Reserved.</p>
+    <footer>
+        <div class="container">
+            <p>&copy; ২০২৪ খাজা বদরুদদোজা মডার্ন হাসপাতাল।</p>
+        </div>
     </footer>
+
+    <!-- ডাটা ফাইল ও লজিক -->
+    <script src="doctors_data.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
