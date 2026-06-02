@@ -176,7 +176,7 @@ const initialWednesdayDocs = [
     { name: "ডা. মাহমুদুর রহমান", specialty: "অর্থোপেডিক বিশেষজ্ঞ", origin: "পঙ্গু হাসপাতাল", room: "148", time: "11:00 AM - 1:00 AM", shift: "সকাল", status: "ON" },
     { name: "ডা. সুরজিৎ সাহা", specialty: "হাড় জোড়া, হাড় ভাঙ্গা ও বাত ব্যথা", origin: "সোহরাওয়ার্দী হাসপাতাল", room: "118", time: "10:00 AM - 2:00 PM", shift: "সকাল", status: "ON" },
     { name: "ডা. মোঃ ইমাদুল ইসলাম (মিঠু)", specialty: "মেডিসিন ও ডায়াবেটিস বিশেষজ্ঞ", origin: "পিজি হাসপাতাল", room: "117", time: "10:00 AM - 3:00 PM", shift: "সকাল", status: "ON" },
-    { name: "ডা. নারগীছ আক্তার", specialty: "স্ত্রীরোগ ও প্রসূতী বিদ্যা", origin: "CMH", room: "121", time: "10:00 AM - 2:00 PM", shift: "সকাল", status: "ON" },
+    { name: "ডা. নারগীছ আক্তার", specialty: "স্গাইনী বিশেষজ্ঞ ও সার্জন", origin: "CMH", room: "121", time: "10:00 AM - 2:00 PM", shift: "সকাল", status: "ON" },
     { name: "ডা. মোঃ শরিফুল ইসলাম রুদ্র", specialty: "অর্থোপেডিক ও ট্রমা বিশেষজ্ঞ", origin: "পিজি হাসপাতাল", room: "147", time: "10:00 AM - 8:00 PM", shift: "সকাল", status: "ON" },
     { name: "ডাঃ খালেদা আক্তার হ্যাপি", specialty: "নকজাতক ও শিশুরোগ বিশেষজ্ঞ", origin: "তাজউদ্দিন মেডিকেল", room: "115", time: "10:00 AM - 8:00 PM", shift: "সকাল", status: "ON" },
     { name: "ডাঃ মোঃ সুজন মাহমুদ", specialty: "চক্ষু ও মাথা ব্যথা রোগে অভিজ্ঞ", origin: "কেবিএমএইচ", room: "N/A", time: "9:00 AM - 9:00 PM", shift: "সকাল", status: "ON" },
