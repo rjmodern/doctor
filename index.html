@@ -3,216 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>খাজা বদরুদদোজা মডার্ন হাসপাতাল - হোম</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        /* CSS Style */
-        :root {
-            --primary-blue: #0056b3;
-            --dark-blue: #003d80;
-            --light-bg: #f4f7f6;
-            --white: #ffffff;
-            --danger: #e74c3c;
-            --text-dark: #2c3e50;
-            --border: #dee2e6;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
-        body { background-color: var(--light-bg); color: var(--text-dark); line-height: 1.6; }
-        .container { width: 95%; max-width: 1200px; margin: 0 auto; }
-
-        /* Header & Nav */
-        header { background: var(--white); border-bottom: 2px solid var(--primary-blue); padding-top: 15px; }
-        .hospital-brand { text-align: center; margin-bottom: 15px; }
-        .hospital-brand h1 { color: var(--primary-blue); font-size: 30px; letter-spacing: 1px; }
-        .hospital-brand p { font-size: 14px; color: #666; margin-top: 5px; }
-
-        nav { background: var(--primary-blue); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .nav-menu { display: flex; list-style: none; overflow-x: auto; justify-content: center; }
-        .nav-menu li a { display: block; padding: 15px 18px; color: white; text-decoration: none; font-weight: 600; font-size: 15px; white-space: nowrap; transition: 0.3s; }
-        .nav-menu li a:hover, .nav-menu li a.active { background: var(--dark-blue); }
-
-        /* Banner */
-        .banner { background: #e3f2fd; padding: 40px 0; text-align: center; border-bottom: 1px solid var(--border); }
-        .banner h2 { font-size: 28px; color: var(--dark-blue); margin-bottom: 10px; }
-
-        /* Tools Section (Clock, Timer, Age Calc) */
-        .tools-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 40px 0; }
-        .tool-card { background: var(--white); padding: 30px; border-radius: 12px; border: 1px solid var(--border); text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .tool-card h3 { font-size: 20px; color: var(--primary-blue); margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        
-        /* Clock Style */
-        .clock { font-size: 36px; font-weight: bold; color: var(--primary-blue); margin: 10px 0; }
-        .date-box { font-size: 16px; color: #7f8c8d; font-weight: 500; }
-
-        /* Timer Style */
-        .timer-display { font-size: 32px; font-weight: bold; color: var(--danger); margin: 15px 0; font-family: monospace; }
-        .btn-group button { padding: 8px 18px; margin: 4px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; transition: 0.2s; }
-        .btn-start { background: var(--primary-blue); color: white; }
-        .btn-stop { background: var(--danger); color: white; }
-        .btn-reset { background: #95a5a6; color: white; }
-        .btn-group button:hover { opacity: 0.8; }
-
-        /* Age Calc Style */
-        .calc-box input { padding: 10px; width: 80%; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 15px; font-size: 16px; }
-        .btn-calc { background: var(--primary-blue); color: white; width: 80%; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .age-result { margin-top: 15px; font-weight: bold; color: var(--dark-blue); font-size: 18px; }
-
-        /* Day Navigation Boxes */
-        .schedule-section { padding-bottom: 60px; }
-        .section-title { text-align: center; margin-bottom: 30px; }
-        .section-title h2 { font-size: 24px; color: var(--text-dark); position: relative; display: inline-block; }
-        .section-title h2::after { content: ''; width: 50%; height: 3px; background: var(--primary-blue); position: absolute; bottom: -8px; left: 25%; }
-
-        .day-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
-        .day-box { background: var(--white); padding: 25px; text-align: center; text-decoration: none; color: var(--primary-blue); border-radius: 10px; border: 1px solid var(--primary-blue); font-weight: bold; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .day-box i { display: block; font-size: 24px; margin-bottom: 10px; }
-        .day-box:hover { background: var(--primary-blue); color: white; transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
-
-        /* Footer */
-        footer { background: #f8f9fa; border-top: 1px solid var(--border); padding: 30px 0; text-align: center; color: #7f8c8d; margin-top: 30px; }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hospital-brand h1 { font-size: 24px; }
-            .nav-menu li a { padding: 12px 10px; font-size: 13px; }
-            .clock { font-size: 28px; }
-        }
-    </style>
+    <title>KBMH — খাজা বদরুদদোজা মডার্ন হাসপাতাল</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body onload="startClock()">
 
-    <header>
-        <div class="container hospital-brand">
-            <h1>খাজা বদরুদদোজা <span>মডার্ন হাসপাতাল</span></h1>
-            <p><i class="fas fa-map-marker-alt"></i> আজিজ ম্যানশন, সফিপুর, কালিয়াকৈর, গাজীপুর</p>
-            <p><i class="fas fa-phone-alt"></i> সিরিয়ালের জন্যঃ ০১৭৭৬-৬০৬২৬২, ০১৬৮৭৬২৫৫৬৫</p>
+    <!-- ফ্লোটিং বাটন -->
+    <div class="floating-contact">
+        <a href="tel:01776606262" class="call-btn"><i class="fas fa-phone"></i></a>
+        <a href="https://wa.me/8801776606262" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
+    <!-- টপ বার -->
+    <div class="top-bar">
+        <div class="container flex-between">
+            <div class="contact-links">
+                <span><i class="fas fa-ambulance"></i> ইমার্জেন্সি: 10668</span>
+                <span><i class="fas fa-phone-alt"></i> সিরিয়াল: 01776-606262</span>
+            </div>
+            <div class="top-right">
+                <a href="#"><i class="fas fa-file-medical"></i> অনলাইন রিপোর্ট</a>
+            </div>
         </div>
-        
+    </div>
+
+    <!-- হেডার -->
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo">KBMH <span>Healthcare</span></h1>
+            <p class="h-subtitle">খাজা বদরুদদোজা মডার্ন হাসপাতাল</p>
+            <p class="h-location"><i class="fas fa-map-marker-alt"></i> আজিজ ম্যানশন, সফিপুর, কালিয়াকৈর, গাজীপুর</p>
+        </div>
     </header>
 
+    <!-- নেভিগেশন বার -->
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li>
+                <li><a href="saturday.html">শনিবার</a></li>
+                <li><a href="sunday.html">রবিবার</a></li>
+                <li><a href="monday.html">সোমবার</a></li>
+                <li><a href="tuesday.html">মঙ্গলবার</a></li>
+                <li><a href="wednesday.html">বুধবার</a></li>
+                <li><a href="thursday.html">বৃহস্পতিবার</a></li>
+                <li><a href="friday.html">শুক্রবার</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <main class="container">
-        
-        <!-- Tools Section -->
-        <section class="tools-section">
-            <!-- Digital Clock -->
-            <div class="tool-card">
-                <h3><i class="far fa-clock"></i> ডিজিটাল ঘড়ি</h3>
-                <div id="digitalClock" class="clock">00:00:00 PM</div>
-                <div id="currentDate" class="date-box">Loading Date...</div>
-            </div>
+        <!-- ডিজিটাল ঘড়ি সেকশন (ছবি অনুযায়ী বামে) -->
+        <section class="clock-section">
+            <div class="clock-icon"><i class="far fa-clock"></i></div>
+            <div id="digitalClock" class="clock-display">00:00:00 AM</div>
+            <div id="currentDate" class="date-display">তারিখ লোড হচ্ছে...</div>
+        </section>
 
-            <!-- Stopwatch/Timer -->
-            <div class="tool-card">
-                <h3><i class="fas fa-stopwatch"></i> টাইমার / স্টপওয়াচ</h3>
-                <div id="timerDisplay" class="timer-display">00:00:00</div>
-                <div class="btn-group">
-                    <button class="btn-start" onclick="startTimer()">Start</button>
-                    <button class="btn-stop" onclick="stopTimer()">Stop</button>
-                    <button class="btn-reset" onclick="resetTimer()">Reset</button>
+        <!-- স্বাগতম সেকশন -->
+        <section class="welcome-banner">
+            <h2>আধুনিক চিকিৎসা সেবায় আমরা প্রতিশ্রুতিবদ্ধ</h2>
+            <p>সঠিক রোগ নির্ণয় এবং বিশেষজ্ঞ ডাক্তারদের সুপরামর্শ নিশ্চিত করতে আমরা সবসময় আপনার পাশে আছি। সপ্তাহের প্রতিদিনের বিশেষজ্ঞ ডাক্তারদের তালিকা দেখতে উপরের মেনু ব্যবহার করুন।</p>
+        </section>
+
+        <!-- ফিচার লিস্ট (আইকন সহ নিচে নিচে) -->
+        <section class="features-list">
+            <div class="feature-item">
+                <i class="fas fa-user-md"></i>
+                <div class="f-text">
+                    <h3>সেরা বিশেষজ্ঞ</h3>
+                    <p>দেশের নামকরা হাসপাতালের অভিজ্ঞ ডাক্তারগণ এখানে নিয়মিত বসেন।</p>
                 </div>
             </div>
 
-            <!-- Age Calculator -->
-            <div class="tool-card">
-                <h3><i class="fas fa-birthday-cake"></i> বয়স ক্যালকুলেটর</h3>
-                <div class="calc-box">
-                    <input type="date" id="birthDate">
-                    <button class="btn-calc" onclick="calculateAge()">হিসাব করুন</button>
-                    <div id="ageResult" class="age-result">আপনার বয়স কত?</div>
+            <div class="feature-item">
+                <i class="fas fa-microscope"></i>
+                <div class="f-text">
+                    <h3>আধুনিক ল্যাব</h3>
+                    <p>নির্ভুল প্যাথলজি রিপোর্টের জন্য আমাদের রয়েছে অত্যাধুনিক প্রযুক্তি।</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-procedures"></i>
+                <div class="f-text">
+                    <h3>উন্নত কেবিন</h3>
+                    <p>রোগীদের আরামদায়ক অবস্থানের জন্য আমাদের রয়েছে শীতাতপ নিয়ন্ত্রিত কেবিন।</p>
                 </div>
             </div>
         </section>
-
-        <!-- Day Navigation -->
-        <section class="schedule-section">
-            <div class="section-title">
-                <h2>সাপ্তাহিক ডাক্তারের তালিকা</h2>
-            </div>
-            <div class="day-grid">
-                <a href="saturday.html" class="day-box"><i class="fas fa-calendar-day"></i>শনিবার</a>
-                <a href="sunday.html" class="day-box"><i class="fas fa-calendar-day"></i>রবিবার</a>
-                <a href="monday.html" class="day-box"><i class="fas fa-calendar-day"></i>সোমবার</a>
-                <a href="tuesday.html" class="day-box"><i class="fas fa-calendar-day"></i>মঙ্গলবার</a>
-                <a href="wednesday.html" class="day-box"><i class="fas fa-calendar-day"></i>বুধবার</a>
-                <a href="thursday.html" class="day-box"><i class="fas fa-calendar-day"></i>বৃহস্পতিবার</a>
-                <a href="friday.html" class="day-box" style="border-color: var(--danger); color: var(--danger);"><i class="fas fa-calendar-day"></i>শুক্রবার</a>
-            </div>
-        </section>
-
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; ২০২৪ খাজা বদরুদদোজা মডার্ন হাসপাতাল। সকল অধিকার সংরক্ষিত।</p>
-        </div>
+        <p>&copy; 2026 খাজা বদরুদদোজা মডার্ন হাসপাতাল। সকল অধিকার সংরক্ষিত।</p>
     </footer>
 
-    <script>
-        /* JavaScript Logic */
-
-        // 1. Digital Clock & Date
-        function updateClock() {
-            const now = new Date();
-            
-            // Time
-            const timeString = now.toLocaleTimeString('en-US', { hour12: true });
-            document.getElementById('digitalClock').innerText = timeString;
-
-            // Date in Bengali
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('currentDate').innerText = now.toLocaleDateString('bn-BD', options);
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // 2. Stopwatch/Timer
-        let timerInterval;
-        let totalSeconds = 0;
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                totalSeconds++;
-                let hrs = Math.floor(totalSeconds / 3600);
-                let mins = Math.floor((totalSeconds % 3600) / 60);
-                let secs = totalSeconds % 60;
-                document.getElementById('timerDisplay').innerText = 
-                    `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-            }, 1000);
-        }
-
-        function stopTimer() {
-            clearInterval(timerInterval);
-        }
-
-        function resetTimer() {
-            clearInterval(timerInterval);
-            totalSeconds = 0;
-            document.getElementById('timerDisplay').innerText = "00:00:00";
-        }
-
-        // 3. Age Calculator
-        function calculateAge() {
-            const birthValue = document.getElementById('birthDate').value;
-            if (!birthValue) {
-                document.getElementById('ageResult').innerText = "জন্ম তারিখ দিন";
-                return;
-            }
-
-            const birthDate = new Date(birthValue);
-            const today = new Date();
-            
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
-            
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            
-            document.getElementById('ageResult').innerText = `আপনার বয়স: ${age} বছর`;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
