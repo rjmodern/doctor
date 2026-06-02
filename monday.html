@@ -3,111 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>সোমবারের শিডিউল - খাজা বদরুদদোজা মডার্ন হাসপাতাল</title>
+    <title>সোমবার শিডিউল - KBMH</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style Sheet -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <header>
-        <div class="container hospital-info">
-            <h1>খাজা বদরুদদোজা মডার্ন হাসপাতাল</h1>
-            <p>আজিজ ম্যানশন, সফিপুর, কালিয়াকৈর, গাজীপুর</p>
-            <p>মোবাঃ ০১৭৭৬-৬০৬২৬২, ০১৬৮৭৬২৫৫৬৫</p>
+<body onload="initPage('Monday')">
+
+    <!-- ১. রানিং হেডলাইন (বিজ্ঞপ্তি) -->
+    <div class="headline-container">
+        <marquee id="runningHeadline" behavior="scroll" direction="left">
+            স্বাগতম! খাজা বদরুদদোজা মডার্ন হাসপাতাল। বিশেষজ্ঞ ডাক্তারের তথ্য জানতে নিচে দেখুন।
+        </marquee>
+    </div>
+
+    <!-- ২. হেডার ও ঘড়ি -->
+    <header class="main-header">
+        <div class="container flex-between">
+            <div class="brand">
+                <h1 class="logo">KBMH <span>Healthcare</span></h1>
+                <p class="tagline">খাজা বদরুদদোজা মডার্ন হাসপাতাল</p>
+            </div>
+            <div class="header-clock">
+                <div id="digitalClock">00:00:00</div>
+                <div id="currentDate">তারিখ লোড হচ্ছে...</div>
+            </div>
         </div>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="saturday.html">শনিবার</a>
-            <a href="sunday.html">রবিবার</a>
-            <a href="monday.html" class="active">সোমবার</a>
-            <a href="tuesday.html">মঙ্গলবার</a>
-            <a href="wednesday.html">বুধবার</a>
-            <a href="thursday.html">বৃহস্পতিবার</a>
-            <a href="friday.html">শুক্রবার</a>
-        </nav>
     </header>
 
-    <main class="container">
-        <h2 style="text-align: center; color: #004a99; margin-bottom: 20px;">সোমবার যে সকল বিশেষজ্ঞ ডাক্তারগণ চেম্বার করবেন</h2>
-        
-        <!-- বিভাগ ফিল্টার -->
-        <div class="filter-section">
-            <label for="deptFilter"><b>বিভাগ অনুযায়ী খুঁজুন:</b></label>
-            <select id="deptFilter" onchange="filterDoctors()">
-                <option value="all">সকল বিভাগ</option>
-                <option value="মেডিসিন">মেডিসিন ও ডায়াবেটিস (Medicine)</option>
-                <option value="গাইনী">গাইনী ও প্রসূতি (Gynecology)</option>
-                <option value="শিশু">নবজাতক ও শিশু (Pediatrics)</option>
-                <option value="অর্থোপেডিক">অর্থোপেডিক ও হাড় জোড়া (Orthopedic)</option>
-                <option value="কিডনী">কিডনী ও ইউরোলজি (Kidney/Urology)</option>
-                <option value="চর্ম">চর্ম ও যৌন (Dermatology)</option>
-                <option value="নাক">নাক, কান ও গলা (ENT)</option>
-                <option value="চক্ষু">চক্ষু (Eye)</option>
-                <option value="দন্ত">দন্ত (Dental)</option>
-                <option value="সার্জন">সার্জন (Surgeon)</option>
-                <option value="গ্যাস্ট্রো">গ্যাস্ট্রো-লিভার (Gastro-liver)</option>
-                <option value="ফিজিওথেরাপি">ফিজিওথেরাপি ও পুষ্টি</option>
-            </select>
+    <!-- ৩. নেভিগেশন বার -->
+    <nav class="navbar">
+        <div class="container flex-between">
+            <ul class="nav-links">
+                <li><a href="index.html">হোম</a></li>
+                <li><a href="saturday.html">শনিবার</a></li>
+                <li><a href="sunday.html">রবিবার</a></li>
+                <li><a href="monday.html" class="active">সোমবার</a></li>
+                <li><a href="tuesday.html">মঙ্গলবার</a></li>
+                <li><a href="wednesday.html">বুধবার</a></li>
+                <li><a href="thursday.html">বৃহস্পতিবার</a></li>
+                <li><a href="friday.html">শুক্রবার</a></li>
+            </ul>
+            <!-- সেটিং বাটন (ম্যানেজমেন্ট অপশন খোলার জন্য) -->
+            <button class="settings-btn" onclick="toggleAdminPanel()">
+                <i class="fas fa-cog"></i> সেটিং
+            </button>
         </div>
+    </nav>
 
-        <div class="table-container">
-            <table>
+    <main class="container">
+        <!-- ৪. লুকানো অ্যাডমিন প্যানেল (সেটিং অপশন) -->
+        <section id="adminPanel" class="admin-panel hidden no-print">
+            <div class="panel-header flex-between">
+                <h3><i class="fas fa-user-cog"></i> ডাক্তার ম্যানেজমেন্ট (সোমবার)</h3>
+                <button class="close-btn" onclick="toggleAdminPanel()">×</button>
+            </div>
+            
+            <form id="addDoctorForm" class="admin-form">
+                <div class="form-grid">
+                    <input type="text" id="docName" placeholder="ডাক্তারের নাম" required>
+                    <input type="text" id="docSpecialty" placeholder="বিশেষজ্ঞতা (যেমন: মেডিসিন)" required>
+                    <input type="text" id="docOrigin" placeholder="আগত স্থান">
+                    <input type="text" id="docRoom" placeholder="রুম নং">
+                    <input type="text" id="docTime" placeholder="সময়">
+                    <select id="docShift">
+                        <option value="সকাল">সকাল শিফট</option>
+                        <option value="বিকেল">বিকেল শিফট</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">তালিকায় যোগ করুন</button>
+            </form>
+        </section>
+
+        <!-- ৫. সার্চ এবং ফিল্টার সেকশন -->
+        <section class="search-filter-wrapper">
+            <div class="search-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="docSearch" placeholder="নাম বা বিভাগ দিয়ে খুঁজুন..." onkeyup="renderTable()">
+                </div>
+                <div class="filter-box">
+                    <select id="deptFilter" onchange="renderTable()">
+                        <option value="all">সকল বিভাগ</option>
+                        <option value="মেডিসিন">মেডিসিন/ডায়াবেটিস</option>
+                        <option value="গাইনী">গাইনী ও প্রসূতি</option>
+                        <option value="শিশু">নবজাতক ও শিশু</option>
+                        <option value="অর্থোপেডিক">অর্থোপেডিক/ট্রমা</option>
+                        <option value="চর্ম">চর্ম ও যৌন</option>
+                        <option value="নাক">নাক, কান, গলা</option>
+                        <option value="সার্জন">সার্জন/ইউরোলজি</option>
+                        <option value="হৃদরোগ">হৃদরোগ/বাতজ্বর</option>
+                        <option value="গ্যাস্ট্রো">গ্যাস্ট্রো-লিভার</option>
+                        <option value="ফিজিওথেরাপি">ফিজিওথেরাপি/পেইন</option>
+                        <option value="চক্ষু">চক্ষু বিশেষজ্ঞ</option>
+                        <option value="দন্ত">দন্ত রোগ</option>
+                    </select>
+                </div>
+            </div>
+            <div class="doc-counter">মোট ডাক্তার: <span id="docCount">0</span> জন</div>
+        </section>
+
+        <!-- ৬. ডাক্তার তালিকা টেবিল -->
+        <div class="table-responsive">
+            <table id="doctorTable">
                 <thead>
                     <tr>
                         <th>SL</th>
                         <th>ডাক্তারদের নাম</th>
                         <th>বিশেষজ্ঞতা</th>
-                        <th>যে স্থান হইতে আগত</th>
+                        <th>স্থান</th>
                         <th>রুম</th>
-                        <th>সময়</th>
+                        <th>সময়</th>
+                        <th class="admin-cell hidden">অ্যাকশন</th>
                     </tr>
                 </thead>
-                <tbody id="doctorTable">
-                    <!-- সকালের শিফট -->
-                    <tr class="shift-header"><td colspan="6">সকাল (Morning Shift)</td></tr>
-                    <tr class="doctor-row" data-dept="মেডিসিন"><td>1</td><td>ডা. প্রফুল্ল চন্দ্র নাথ তালুকদার</td><td>মেডিসিন, হৃদরোগ ও বক্ষব্যাধি বিশেষজ্ঞ</td><td>নোয়াখালী মেডিকেল কলেজ</td><td>117</td><td>10:00 AM - 3:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="শিশু"><td>2</td><td>অধ্যাপক ডা. আশিষ কুমার ঘোষ</td><td>নবজাতক, শিশু ও রক্তরোগ বিশেষজ্ঞ</td><td>জাতীয় ক্যান্সার গবেষণা ইনস্টিটিউট</td><td>146</td><td>10:00 AM - 2:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="গাইনী"><td>3</td><td>ডা. মাহমুদা খাতুন</td><td>গাইনী বিশেষজ্ঞ ও সার্জন</td><td>পিজি হাসপাতাল</td><td>119</td><td>10:00 AM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="মেডিসিন"><td>4</td><td>ডা. সাব্বির আহমেদ চৌধুরী</td><td>ডায়াবেটিস ও মেডিসিন বিশেষজ্ঞ</td><td>স্যার সলিমুল্লাহ মেডিকেল কলেজ</td><td>155</td><td>10:00 AM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="অর্থোপেডিক"><td>5</td><td>ডা. সুরজিৎ সাহা</td><td>হাড় জোড়া ও বাত ব্যথা বিশেষজ্ঞ সার্জন</td><td>শহীদ সোহরাওয়ার্দী মেডিকেল</td><td>118</td><td>10:00 AM - 7:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="কিডনী"><td>6</td><td>সহযোগী অধ্যাপক ডা. এ.কে এম তারিকুল হাসান</td><td>কিডনী ও ডায়াবেটিস বিশেষজ্ঞ</td><td>ইষ্ট-ওয়েষ্ট মেডিকেল কলেজ</td><td>120</td><td>9:00 AM - 2:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="গাইনী"><td>7</td><td>ডা. নারগীছ আক্তার</td><td>স্ত্রীরোগ ও প্রসূতীবিদ্যা বিশেষজ্ঞ</td><td>CMH</td><td>121</td><td>10:00 AM - 2:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="শিশু"><td>8</td><td>ডাঃ খালেদা আক্তার হ্যাপি</td><td>নবজাতক ও শিশুরোগ বিশেষজ্ঞ</td><td>শহীদ তাজউদ্দিন আহমেদ মেডিকেল</td><td>115</td><td>10:00 AM - 1:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="চক্ষু"><td>9</td><td>ডাঃ মোঃ সুজন মাহমুদ</td><td>চক্ষু ও মাথা ব্যথা রোগে অভিজ্ঞ</td><td>কেবিএমএইচ</td><td>N/A</td><td>9:00 AM - 9:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="মেডিসিন"><td>10</td><td>ডা. নাজমুন্নাহার সাথী</td><td>মেডিসিন, ডায়াবেটিস ও হরমোন অভিজ্ঞ</td><td>মিটফোর্ড হাসপাতাল</td><td>154</td><td>10:00 AM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="দন্ত"><td>11</td><td>ডা. এম. আরফান মাহমুদ</td><td>মুখ ও দন্ত রোগ বিশেষজ্ঞ সার্জন</td><td>শহীদ সোহরাওয়ার্দী মেডিকেল</td><td>N/A</td><td>10:00 AM - 2:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="দন্ত"><td>12</td><td>ডা. রিজিয়া পারভীন শিখা</td><td>ওরাল এন্ড ডেন্টাল সার্জন</td><td>ঢাকা ডেন্টাল কলেজ</td><td>N/A</td><td>11:00 AM - 1:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="ফিজিওথেরাপি"><td>13</td><td>ডা. মুহাম্মদ হাসিফ</td><td>ফিজিওথেরাপি বিশেষজ্ঞ</td><td>গণস্বাস্থ্য</td><td>N/A</td><td>9:00 AM - 9:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="ফিজিওথেরাপি"><td>14</td><td>পুষ্টিবিদ সায়মা আক্তার লিজা</td><td>নিউট্রিশন ও ডায়েট কনসালটেন্ট</td><td>ইবনে সিনা মেডিকেল কলেজ</td><td>-1</td><td>10:00 AM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="গাইনী"><td>15</td><td>ডা. রুমা আক্তার</td><td>গাইনী রোগ ও সনোলজিস্ট</td><td>কেবিএমএইচ</td><td>106</td><td>10:00 AM - 1:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="ফিজিওথেরাপি"><td>16</td><td>ডা. হাসনাইন সরকার (পি.টি.)</td><td>ফিজিওথেরাপি কনসালন্টে</td><td>কেবিএমএইচ</td><td>N/A</td><td>10:00 AM - 6:00 PM</td></tr>
-
-                    <!-- বিকেলের শিফট -->
-                    <tr class="shift-header"><td colspan="6">বিকেল (Afternoon Shift)</td></tr>
-                    <tr class="doctor-row" data-dept="শিশু"><td>1</td><td>অধ্যাপক ডা. শিশির রঞ্জন দাস</td><td>নবজাতক ও শিশু বিশেষজ্ঞ</td><td>ঢাকা মেডিকেল কলেজ হাসপাতাল</td><td>115</td><td>6:00 PM - 9:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="অর্থোপেডিক"><td>2</td><td>অধ্যাপক ডা. শাহ্ মোঃ ফয়সাল</td><td>অর্থোপেডিক বিশেষজ্ঞ ও সার্জন</td><td>এনাম মেডিকেল কলেজ হাসপাতাল</td><td>157</td><td>5:00 PM - 9:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="শিশু"><td>3</td><td>ডা. সাব্বির আহমেদ ভূঁইয়া</td><td>নবজাতক, শিশু ও কিশোর বিশেষজ্ঞ</td><td>শহীদ তাজউদ্দিন আহমেদ মেডিকেল</td><td>158</td><td>4:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="সার্জন"><td>4</td><td>সহযোগী অধ্যাপক ডা. মোঃ সুমন রহমান</td><td>জেনারেল ও ল্যাপারোস্কপিক সার্জন</td><td>শহীদ মনসুর আলী মেডিকেল</td><td>144</td><td>4:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="নাক"><td>5</td><td>ডা. সাইফুল ইসলাম</td><td>নাক, কান, গলা ও হেড নেক সার্জন</td><td>জাতীয় ইএনটি ইনস্টিটিউট</td><td>145</td><td>5:00 PM - 9:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="গ্যাস্ট্রো"><td>6</td><td>সহযোগী অধ্যাপক ডা. অরুন জ্যোতি তরফদার</td><td>গ্যাস্ট্রোলিভার ও মেডিসিন বিশেষজ্ঞ</td><td>ময়মনসিংহ মেডিকেল কলেজ</td><td>116</td><td>4:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="গাইনী"><td>7</td><td>ডা:সাহারা আরবী</td><td>বন্ধ্যাত্ব ও গাইনী বিশেষজ্ঞ</td><td>ডিজিএইচএস (পরামর্শদাতা)</td><td>148</td><td>4:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="গাইনী"><td>8</td><td>ডা: তানিয়া আক্তার বিথী</td><td>গাইনী বিশেষজ্ঞ</td><td>কেবিএমএইচ</td><td>159</td><td>4:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="অর্থোপেডিক"><td>9</td><td>ডা. মোঃ আমান উল্লাহ কবির (মিলটন)</td><td>হাড় জোড়া ও মেরুদন্ড রোগ বিশেষজ্ঞ</td><td>পিজি হাসপাতাল</td><td>118</td><td>4:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="মেডিসিন"><td>10</td><td>অধ্যাপক ডা. সোলায়মান হোসেন</td><td>হৃদরোগ, বাতজ্বর ও মেডিসিন বিশেষজ্ঞ</td><td>এনাম মেডিকেল কলেজ হাসপাতাল</td><td>117</td><td>4:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="মেডিসিন"><td>11</td><td>ডা. মোঃ শাহজাদা তাবরেজ</td><td>বক্ষব্যাধি মেডিসিন বিশেষজ্ঞ</td><td>মুগদা মেডিকেল কলেজ হাসপাতাল</td><td>147</td><td>4:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="শিশু"><td>12</td><td>ডা. ফারজানা আক্তার দিতি</td><td>শিশুরোগ বিশেষজ্ঞ</td><td>শহীদ তাজউদ্দিন আহমেদ মেডিকেল</td><td>-2</td><td>4:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="চর্ম"><td>13</td><td>সহযোগী অধ্যাপক ডা. তানিয়া হক</td><td>চর্ম, যৌন ও এলার্জী রোগ বিশেষজ্ঞ</td><td>গণ-স্বাস্থ্য মেডিকেল কলেজ</td><td>N/A</td><td>4:00 PM - 7:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="অর্থোপেডিক"><td>14</td><td>ডা. মো. জাহিদ হাসান সিদ্দিক</td><td>অর্থোপেডিক ও ট্রমা সার্জন</td><td>পঙ্গু হাসপাতাল</td><td>118</td><td>4:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="অর্থোপেডিক"><td>15</td><td>ডা. মোঃ নাজমুল হাসান</td><td>অর্থোপেডিক ও ট্রামা বিশেষজ্ঞ</td><td>পিজি হাসপাতাল</td><td>114</td><td>6:00 PM - 9:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="চর্ম"><td>16</td><td>ডা. মোঃ রাকিবুল হাসান</td><td>চর্ম, যৌন ও এলার্জি বিশেষজ্ঞ</td><td>BSMMU (পিজি হাসপাতাল)</td><td>121</td><td>4:00 PM - 7:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="দন্ত"><td>17</td><td>ডা. অনন্যা বিশ্বাস</td><td>ওরাল এন্ড ডেন্টাল সার্জন</td><td>ঢাকা ডেন্টাল মেডিকেল কলেজ</td><td>N/A</td><td>3:00 PM - 7:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="ফিজিওথেরাপি"><td>18</td><td>ডা. খন্দকার আবুল হোসাইন</td><td>ফিজিওথেরাপি বিশেষজ্ঞ</td><td>পঙ্গু হাসপাতাল</td><td>N/A</td><td>4:30 PM - 8:30 PM</td></tr>
-                    <tr class="doctor-row" data-dept="মেডিসিন"><td>19</td><td>ডা. রাবেয়া জামান নাদিয়া</td><td>সনোলজিস্ট ও জেনারেল ফিজিশিয়ান</td><td>কেবিএমএইচ</td><td>103</td><td>5:00 PM - 8:00 PM</td></tr>
-                    <tr class="doctor-row" data-dept="all"><td>20</td><td>KBMH Others</td><td>অন্যান্য (Others)</td><td>KBMH</td><td>102</td><td>12:00 PM - 11:59 AM</td></tr>
-                    <tr class="doctor-row" data-dept="কিডনী"><td>21</td><td>ডা আহসানুল কবির শিপলু</td><td>কিডনি ও ইউরোলজী সার্জন</td><td>Urology Specialist</td><td>149</td><td>4:00 PM - 8:00 PM</td></tr>
+                <tbody id="tableBody">
+                    <!-- ডাটা ম্যানেজমেন্ট জাভাস্ক্রিপ্ট থেকে অটোমেটিক আসবে -->
                 </tbody>
             </table>
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <!-- ৭. ফুটার -->
+    <footer class="no-print">
+        <div class="container">
+            <p>&copy; 2026 খাজা বদরুদদোজা মডার্ন হাসপাতাল। সকল অধিকার সংরক্ষিত।</p>
+        </div>
+    </footer>
+
+    <!-- JS Scripts -->
+    <script src="management.js"></script>
 </body>
 </html>
