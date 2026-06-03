@@ -361,22 +361,28 @@ function toggleAdminPanel() {
     renderTable(); // অ্যাকশন কলাম দেখানোর জন্য রি-রেন্ডার
 }
 
-// টেবিল রেন্ডার এবং রানিং হেডলাইন আপডেট
+// টেবিল রেন্ডার এবং রানিং হেডলাইন আপডেট (Updated Final Version)
 function renderTable() {
     const tableBody = document.getElementById('tableBody');
     const searchQuery = document.getElementById('docSearch').value.toLowerCase();
     const deptFilter = document.getElementById('deptFilter').value.toLowerCase();
     const marquee = document.getElementById('runningHeadline');
+    const docCountEl = document.getElementById('docCount');
     
-    // দিনের নাম বাংলায় কনভার্ট (হেডলাইনের জন্য)
+    // এলিমেন্টগুলো পেজে আছে কি না চেক করে নেওয়া (Safety Check)
+    if (!tableBody) return;
+
+    // দিনের নাম বাংলায় কনভার্ট
     const dayMap = {
         'Saturday': 'শনিবার', 'Sunday': 'রবিবার', 'Monday': 'সোমবার', 
         'Tuesday': 'মঙ্গলবার', 'Wednesday': 'বুধবার', 'Thursday': 'বৃহস্পতিবার', 'Friday': 'শুক্রবার'
     };
 
     tableBody.innerHTML = "";
-    let headlineText = `খাজা বদরুদদোজা মডার্ন হাসপাতাল - ${dayMap[currentDay]} শিডিউল: `;
+    let headlineText = `খাজা বদরুদদোজা মডার্ন হাসপাতাল - ${dayMap[currentDay] || ''} শিডিউল: `;
     let count = 0;
+    let anyDoctorOff = false;
+    let anyNewDoctor = false;
 
     const shifts = ["সকাল", "বিকেল"];
     
@@ -385,44 +391,79 @@ function renderTable() {
         let shiftRows = "";
 
         shiftDocs.forEach(doc => {
-            const matchesSearch = doc.name.toLowerCase().includes(searchQuery) || doc.specialty.toLowerCase().includes(searchQuery);
-            const matchesDept = (deptFilter === "all" || doc.specialty.toLowerCase().includes(deptFilter));
+            const docName = doc.name.toLowerCase();
+            const docSpecialty = doc.specialty.toLowerCase();
+
+            // ১. সার্চ লজিক (নাম অথবা স্পেশালিটি দিয়ে)
+            const matchesSearch = docName.includes(searchQuery) || docSpecialty.includes(searchQuery);
+            
+            // ২. ডিপার্টমেন্ট ফিল্টার লজিক (স্মার্ট ফিল্টারিং)
+            const matchesDept = (deptFilter === "all" || docSpecialty.includes(deptFilter));
 
             if (matchesSearch && matchesDept) {
                 count++;
                 const index = doctors.indexOf(doc);
                 const isOff = doc.status === 'OFF';
                 
-                // হেডলাইন আপডেট লজিক
-                if (isOff) headlineText += `🔴 ডা: ${doc.name} (চেম্বার বন্ধ) | `;
-                else if (doc.isNew) headlineText += `🟢 নতুন ডাক্তার: ডা: ${doc.name} | `;
+                // হেডলাইন ডাটা প্রসেসিং
+                if (isOff) {
+                    headlineText += `🔴 ডা: ${doc.name} (চেম্বার বন্ধ) | `;
+                    anyDoctorOff = true;
+                } else if (doc.isNew) {
+                    headlineText += `🟢 নতুন ডাক্তার: ডা: ${doc.name} (${doc.time}) | `;
+                    anyNewDoctor = true;
+                }
 
+                // টেবিল রো (Row) জেনারেট
                 shiftRows += `
                     <tr class="${isOff ? 'closed-row' : ''}">
                         <td>${count}</td>
-                        <td>${doc.name} ${doc.isNew ? '<span class="new-tag">NEW</span>' : ''}</td>
+                        <td style="font-weight:600;">
+                            ${doc.name} 
+                            ${doc.isNew ? '<span class="new-tag">NEW</span>' : ''}
+                        </td>
                         <td>${doc.specialty}</td>
-                        <td>${doc.origin}</td>
-                        <td>${doc.room}</td>
+                        <td>${doc.origin || 'N/A'}</td>
+                        <td style="text-align:center; font-weight:bold;">${doc.room || 'N/A'}</td>
                         <td>${doc.time}</td>
                         <td class="admin-cell ${isAdminVisible ? '' : 'hidden'}">
-                            <button class="action-btn ${isOff ? 'btn-on' : 'btn-off'}" onclick="toggleStatus(${index})">
-                                ${isOff ? 'খোলা' : 'বন্ধ'}
-                            </button>
-                            <button class="action-btn btn-del" onclick="deleteDoctor(${index})"><i class="fas fa-trash"></i></button>
+                            <div style="display: flex; gap: 4px;">
+                                <button class="action-btn ${isOff ? 'btn-on' : 'btn-off'}" onclick="toggleStatus(${index})" title="${isOff ? 'খোলা' : 'বন্ধ করুন'}">
+                                    <i class="fas ${isOff ? 'fa-check-circle' : 'fa-times-circle'}"></i> ${isOff ? 'খোলা' : 'বন্ধ'}
+                                </button>
+                                <button class="action-btn btn-del" onclick="deleteDoctor(${index})" title="ডিলিট করুন">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 `;
             }
         });
 
+        // যদি এই শিফটে কোনো ডাক্তার থাকে তবেই হেডার দেখাবে
         if (shiftRows !== "") {
-            tableBody.innerHTML += `<tr><td colspan="7" class="shift-title">${shift} শিফট</td></tr>` + shiftRows;
+            const shiftHeader = `<tr><td colspan="7" class="shift-title">${shift} শিফট</td></tr>`;
+            tableBody.innerHTML += shiftHeader + shiftRows;
         }
     });
 
-    document.getElementById('docCount').innerText = count;
-    marquee.innerText = headlineText;
+    // কোনো ডাক্তার না পাওয়া গেলে মেসেজ
+    if (count === 0) {
+        tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px; color:#666;">দুঃখিত, এই বিভাগে কোনো ডাক্তার পাওয়া যায়নি।</td></tr>`;
+    }
+
+    // রেজাল্ট কাউন্ট আপডেট
+    if (docCountEl) docCountEl.innerText = count;
+
+    // হেডলাইন টেক্সট ফাইনাল করা
+    if (marquee) {
+        if (!anyDoctorOff && !anyNewDoctor) {
+            marquee.innerText = `খাজা বদরুদদোজা মডার্ন হাসপাতাল - সকল বিশেষজ্ঞ ডাক্তারগণ নিয়মিত চেম্বার করছেন। সিরিয়ালের জন্য ফোন করুন: 01776-606262`;
+        } else {
+            marquee.innerText = headlineText;
+        }
+    }
 }
 
 // নতুন ডাক্তার যোগ করার ফরম সাবমিট
