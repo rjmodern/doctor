@@ -73,17 +73,28 @@
                     <input type="text" id="docSearch" placeholder="নাম লিখে খুঁজুন..." onkeyup="renderTable()">
                 </div>
                 <div class="filter-box">
-                    <select id="deptFilter" onchange="renderTable()">
-                        <option value="all">সকল বিভাগ</option>
-                        <option value="মেডিসিন">মেডিসিন ও নিউরো</option>
-                        <option value="গাইনী">গাইনী ও প্রসূতি</option>
-                        <option value="শিশু">নবজাতক ও শিশু</option>
-                        <option value="অর্থোপেডিক">অর্থোপেডিক ও হাড় জোড়া</option>
-                        <option value="সার্জন">সার্জন ও কিডনি</option>
-                        <option value="নাক">নাক, কান, গলা</option>
-                        <option value="ফিজিওথেরাপি">ফিজিওথেরাপি ও রেডিওলজি</option>
-                    </select>
-                </div>
+    <select id="deptFilter" onchange="renderTable()">
+        <option value="all">-- সকল বিভাগ (All Departments) --</option>
+        <option value="মেডিসিন">মেডিসিন ও ডায়াবেটিস (Medicine)</option>
+        <option value="গাইনী">গাইনী ও প্রসূতি (Gynecology)</option>
+        <option value="শিশু">নবজাতক ও শিশু (Pediatrics)</option>
+        <option value="অর্থোপেডিক">অর্থোপেডিক ও ট্রমা (Orthopedic)</option>
+        <option value="সার্জন">জেনারেল ও ল্যাপারোস্কপিক সার্জন (Surgery)</option>
+        <option value="চর্ম">চর্ম, যৌন ও এলার্জি (Dermatology)</option>
+        <option value="হৃদরোগ">হৃদরোগ ও বাতজ্বর (Cardiology)</option>
+        <option value="নাক">নাক, কান ও গলা (ENT)</option>
+        <option value="গ্যাস্ট্রো">লিভার ও গ্যাস্ট্রোএন্টারোলজি (Gastroliver)</option>
+        <option value="কিডনি">কিডনি ও ইউরোলজি (Kidney/Urology)</option>
+        <option value="নিউরোলজি">নিউরোমেডিসিন ও প্যারালাইসিস (Neurology)</option>
+        <option value="চক্ষু">চক্ষু বিশেষজ্ঞ (Ophthalmology)</option>
+        <option value="দন্ত">মুখ ও দন্ত রোগ (Dental)</option>
+        <option value="ফিজিওথেরাপি">ফিজিওথেরাপি ও পেইন মেডিসিন (Physiotherapy)</option>
+        <option value="সনোলজিস্ট">সনোলজিস্ট ও রেডিওলজি (Sonologist)</option>
+        <option value="পুষ্টিবিদ">পুষ্টি ও ডায়েট (Nutrition)</option>
+        <option value="বক্ষব্যাধি">বক্ষব্যাধি ও অ্যাজমা (Chest/Asthma)</option>
+        <option value="others">অন্যান্য (Others)</option>
+    </select>
+             </div>
             </div>
             <div class="doc-counter">মোট ডাক্তার: <span id="docCount">0</span> জন</div>
         </section>
