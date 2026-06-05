@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডাক্তার ফি ও শিডিউল — KBMH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .info-container { margin-top: 190px; margin-bottom: 100px; }
+        .search-card { background: #f8fbff; padding: 30px; border-radius: 20px; border: 1px solid #dce7f1; text-align: center; }
+        .selection-box { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .selection-box select { max-width: 300px; flex: 1; }
+        
+        .doctor-profile-card { background: white; margin-top: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; display: none; }
+        .profile-header { background: var(--primary); color: white; padding: 20px; display: flex; align-items: center; gap: 20px; }
+        .profile-header i { font-size: 50px; }
+        .profile-header h2 { margin: 0; font-size: 24px; }
+        
+        .fee-badge-container { display: flex; gap: 10px; padding: 20px; background: #e3f2fd; }
+        .fee-badge { background: white; padding: 10px 20px; border-radius: 10px; border-left: 5px solid var(--cyan); flex: 1; }
+        .fee-badge span { display: block; font-size: 12px; color: #666; }
+        .fee-badge strong { font-size: 18px; color: var(--primary); }
+
+        .schedule-table-area { padding: 20px; }
+        .status-open { color: var(--success); font-weight: bold; }
+        .status-closed { color: var(--danger); font-weight: bold; }
+    </style>
+</head>
+<body onload="initInfoPage()">
+
+    <!-- ফিক্সড হেডার -->
+    <header class="fixed-top">
+        <div class="top-bar-sticky">
+            <div class="container flex-bar">
+                <div class="bar-left"><span><i class="fas fa-phone-alt"></i> সিরিয়াল: ০১৭৭৬-৬০৬২৬২</span></div>
+                <div class="bar-center"><marquee>খাজা বদরুদদোজা মডার্ন হাসপাতাল - বিশেষজ্ঞ ডাক্তারদের তথ্য এখানে পাবেন।</marquee></div>
+                <div class="bar-right"><span>২৪ ঘণ্টা খোলা</span></div>
+            </div>
+        </div>
+        <nav class="navbar">
+            <div class="container">
+                <ul class="nav-links">
+                    <li><a href="index.html">হোম</a></li>
+                    <li><a href="doctor-info.html" class="active">ডাক্তার ফি ও শিডিউল</a></li>
+                    <li><a href="saturday.html">শনিবার</a></li>
+                    <li><a href="sunday.html">রবিবার</a></li>
+                    <li><a href="monday.html">সোমবার</a></li>
+                    <li><a href="tuesday.html">মঙ্গলবার</a></li>
+                    <li><a href="wednesday.html">বুধবার</a></li>
+                    <li><a href="thursday.html">বৃহস্পতিবার</a></li>
+                    <li><a href="friday.html">শুক্রবার</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container info-container">
+        <!-- সার্চ সেকশন -->
+        <section class="search-card">
+            <h3><i class="fas fa-search-plus"></i> আপনার ডাক্তার খুঁজুন</h3>
+            <p>বিভাগ এবং ডাক্তারের নাম সিলেক্ট করুন</p>
+            <div class="selection-box">
+                <select id="infoDeptSelect" onchange="filterInfoDocs()">
+                    <option value="">-- বিভাগ নির্বাচন করুন --</option>
+                    <option value="মেডিসিন">মেডিসিন ও হৃদরোগ</option>
+                    <option value="গাইনী">গাইনী ও প্রসূতি</option>
+                    <option value="অর্থোপেডিক">অর্থোপেডিক</option>
+                    <option value="শিশু">শিশু বিশেষজ্ঞ</option>
+                    <option value="সার্জন">সার্জন</option>
+                    <option value="নাক">নাক-কান-গলা</option>
+                    <option value="চক্ষু">চক্ষু বিশেষজ্ঞ</option>
+                    <option value="দন্ত">দন্ত রোগ</option>
+                </select>
+                <select id="infoDocSelect" onchange="loadFullDoctorInfo()" disabled>
+                    <option value="">-- আগে বিভাগ সিলেক্ট করুন --</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- রেজাল্ট কার্ড -->
+        <section id="doctorFullProfile" class="doctor-profile-card">
+            <div class="profile-header">
+                <i class="fas fa-user-md"></i>
+                <div>
+                    <h2 id="pDocName">ডাক্তারের নাম</h2>
+                    <p id="pDocSpec">বিশেষজ্ঞতা ও বিভাগ</p>
+                </div>
+            </div>
+
+            <div class="fee-badge-container">
+                <div class="fee-badge">
+                    <span>১ম ভিজিট ফি (নতুন)</span>
+                    <strong id="pFeeNew">0 TK</strong>
+                </div>
+                <div class="fee-badge">
+                    <span>২য় ভিজিট ফি (পুরাতন)</span>
+                    <strong id="pFeeOld">0 TK</strong>
+                </div>
+            </div>
+
+            <div class="schedule-table-area">
+                <h4><i class="fas fa-calendar-alt"></i> সাপ্তাহিক চেম্বার শিডিউল:</h4>
+                <div class="table-responsive">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>দিন</th>
+                                <th>সময়</th>
+                                <th>রুম নম্বর</th>
+                                <th>অবস্থা</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pScheduleBody"></tbody>
+                    </table>
+                </div>
+                <p style="margin-top:15px; font-size:13px; color:#666;">* সিরিয়াল দিতে বা বিস্তারিত জানতে সরাসরি কল করুন।</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="fixed-bottom">
+        <p>&copy; ২০২৬ খাজা বদরুদদোজা মডার্ন হাসপাতাল। আজিজ ম্যানশন, সফিপুর, গাজীপুর।</p>
+    </footer>
+
+    <script src="management.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // এই পেজের জন্য স্পেশাল লজিক
+        function filterInfoDocs() {
+            const dept = document.getElementById('infoDeptSelect').value;
+            const docSelect = document.getElementById('infoDocSelect');
+            docSelect.innerHTML = '<option value="">-- ডাক্তার নির্বাচন করুন --</option>';
+            
+            if(!dept) { docSelect.disabled = true; return; }
+
+            // ডাটাবেজ থেকে ডাক্তার ফিল্টার
+            const filtered = doctorFeesData.filter(d => d.specialty.includes(dept));
+            filtered.forEach(d => {
+                let opt = document.createElement('option');
+                opt.value = d.name; opt.text = d.name;
+                docSelect.appendChild(opt);
+            });
+            docSelect.disabled = false;
+        }
+
+        function loadFullDoctorInfo() {
+            const name = document.getElementById('infoDocSelect').value;
+            const profileCard = document.getElementById('doctorFullProfile');
+            if(!name) { profileCard.style.display = 'none'; return; }
+
+            // ফি ডাটা
+            const customFees = JSON.parse(localStorage.getItem('customFees')) || {};
+            const baseFee = doctorFeesData.find(d => d.name === name);
+            document.getElementById('pDocName').innerText = name;
+            document.getElementById('pDocSpec').innerText = baseFee ? baseFee.specialty : "বিশেষজ্ঞ";
+            document.getElementById('pFeeNew').innerText = (customFees[name]?.firstFee || baseFee?.firstFee || 0) + " TK";
+            document.getElementById('pFeeOld').innerText = (customFees[name]?.secondFee || baseFee?.secondFee || 0) + " TK";
+
+            // শিডিউল ডাটা
+            const tableBody = document.getElementById('pScheduleBody');
+            tableBody.innerHTML = "";
+            const days = ['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'];
+            const bnDays = {'Saturday':'শনিবার','Sunday':'রবিবার','Monday':'সোমবার','Tuesday':'মঙ্গলবার','Wednesday':'বুধবার','Thursday':'বৃহস্পতিবার','Friday':'শুক্রবার'};
+
+            days.forEach(day => {
+                const saved = JSON.parse(localStorage.getItem(`doctors_${day}`)) || [];
+                const doc = saved.find(d => d.name === name);
+                if(doc) {
+                    const isOff = doc.status === 'OFF';
+                    tableBody.innerHTML += `
+                        <tr class="${isOff ? 'closed-row' : ''}">
+                            <td><strong>${bnDays[day]}</strong></td>
+                            <td>${doc.time}</td>
+                            <td>${doc.room}</td>
+                            <td class="${isOff ? 'status-closed' : 'status-open'}">${isOff ? 'বন্ধ' : 'খোলা'}</td>
+                        </tr>`;
+                }
+            });
+
+            profileCard.style.display = 'block';
+        }
+
+        function initInfoPage() {
+            startClock();
+        }
+    </script>
+</body>
+</html>
