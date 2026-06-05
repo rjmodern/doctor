@@ -4,61 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KBMH — খাজা বদরুদদোজা মডার্ন হাসপাতাল</title>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="startClock()">
+<body onload="initHomePage()">
 
-    <!-- ফ্লোটিং বাটন -->
-    <div class="floating-contact">
-        <a href="tel:01776606262" class="call-btn"><i class="fas fa-phone"></i></a>
-        <a href="https://wa.me/8801776606262" class="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
-    </div>
-
-    <!-- টপ বার -->
-    <div class="top-bar">
-        <div class="container flex-between">
-            <div class="contact-links">
-                <span><i class="fas fa-ambulance"></i> ইমার্জেন্সি: 10668</span>
-                <span><i class="fas fa-phone-alt"></i> সিরিয়াল: 01776-606262</span>
-            </div>
-            <div class="top-right">
-                <a href="#"><i class="fas fa-file-medical"></i> অনলাইন রিপোর্ট</a>
+    <!-- ফিক্সড হেডার -->
+    <header class="fixed-top">
+        <div class="top-bar-sticky">
+            <div class="container flex-bar">
+                <div class="bar-left"><span><i class="fas fa-ambulance"></i> ১০৬৬৮</span></div>
+                <div class="bar-center"><marquee id="mainMarquee">খাজা বদরুদদোজা মডার্ন হাসপাতালে আপনাকে স্বাগতম। আধুনিক চিকিৎসাসেবা এখন আপনার হাতের নাগালে।</marquee></div>
+                <div class="bar-right"><span class="serial-no">সিরিয়াল: ০১৭৭৬-৬০৬২৬২</span></div>
             </div>
         </div>
-    </div>
-
-    <!-- হেডার -->
-    <header class="main-header">
-        <div class="container">
+        <div class="main-branding text-center">
             <h1 class="logo">KBMH <span>Healthcare</span></h1>
-            <p class="h-subtitle">খাজা বদরুদদোজা মডার্ন হাসপাতাল</p>
-            <p class="h-location"><i class="fas fa-map-marker-alt"></i> আজিজ ম্যানশন, সফিপুর, কালিয়াকৈর, গাজীপুর</p>
         </div>
+        <nav class="navbar">
+            <div class="container">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">হোম</a></li>
+                    <li><a href="doctor-info.html">ডাক্তার ফি ও শিডিউল</a></li>
+                    <li><a href="saturday.html">শনিবার</a></li>
+                    <li><a href="sunday.html">রবিবার</a></li>
+                    <li><a href="monday.html">সোমবার</a></li>
+                    <li><a href="tuesday.html">মঙ্গলবার</a></li>
+                    <li><a href="wednesday.html">বুধবার</a></li>
+                    <li><a href="thursday.html">বৃহস্পতিবার</a></li>
+                    <li><a href="friday.html">শুক্রবার</a></li>
+                    <li><a href="settings.html">সেটিং</a></li>
+                </ul>
+            </div>
+        </nav>
     </header>
 
-    <!-- নেভিগেশন বার -->
-    <nav class="navbar">
-        <div class="container">
-            <ul class="nav-links">
-                <li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li>
-                <li><a href="saturday.html">শনিবার</a></li>
-                <li><a href="sunday.html">রবিবার</a></li>
-                <li><a href="monday.html">সোমবার</a></li>
-                <li><a href="tuesday.html">মঙ্গলবার</a></li>
-                <li><a href="wednesday.html">বুধবার</a></li>
-                <li><a href="thursday.html">বৃহস্পতিবার</a></li>
-                <li><a href="friday.html">শুক্রবার</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main class="container">
-        <!-- ডিজিটাল ঘড়ি সেকশন (ছবি অনুযায়ী বামে) -->
-        <section class="clock-section">
+    <main class="container main-content">
+        
+        <!-- ঘড়ি সেকশন (বামে ফোকাস) -->
+        <section class="clock-area">
             <div class="clock-icon"><i class="far fa-clock"></i></div>
             <div id="digitalClock" class="clock-display">00:00:00 AM</div>
             <div id="currentDate" class="date-display">তারিখ লোড হচ্ছে...</div>
@@ -66,42 +51,61 @@
 
         <!-- স্বাগতম সেকশন -->
         <section class="welcome-banner">
-            <h2>আধুনিক চিকিৎসা সেবায় আমরা প্রতিশ্রুতিবদ্ধ</h2>
-            <p>সঠিক রোগ নির্ণয় এবং বিশেষজ্ঞ ডাক্তারদের সুপরামর্শ নিশ্চিত করতে আমরা সবসময় আপনার পাশে আছি। সপ্তাহের প্রতিদিনের বিশেষজ্ঞ ডাক্তারদের তালিকা দেখতে উপরের মেনু ব্যবহার করুন।</p>
+            <h2>আধুনিক চিকিৎসাসেবায় আমরা প্রতিশ্রুতিবদ্ধ</h2>
+            <p>সঠিক রোগ নির্ণয় এবং বিশেষজ্ঞ ডাক্তারদের সুপরামর্শ নিশ্চিত করতে আমরা সবসময় আপনার পাশে আছি।</p>
         </section>
 
-        <!-- ফিচার লিস্ট (আইকন সহ নিচে নিচে) -->
-        <section class="features-list">
-            <div class="feature-item">
+        <!-- কুইক অ্যাকশন কার্ডস (রোগীদের দ্রুত নেভিগেশনের জন্য) -->
+        <section class="quick-nav-grid">
+            <a href="doctor-info.html" class="nav-card">
                 <i class="fas fa-user-md"></i>
-                <div class="f-text">
-                    <h3>সেরা বিশেষজ্ঞ</h3>
+                <h4>শিডিউল ও ফি দেখুন</h4>
+                <p>সব ডাক্তারের সময় ও ফি এক জায়গায়</p>
+            </a>
+            <a href="tel:01776606262" class="nav-card">
+                <i class="fas fa-phone-alt"></i>
+                <h4>সিরিয়াল বুকিং</h4>
+                <p>সরাসরি ফোন করে সিরিয়াল দিন</p>
+            </a>
+            <a href="#" class="nav-card">
+                <i class="fas fa-file-medical"></i>
+                <h4>অনলাইন রিপোর্ট</h4>
+                <p>ডায়াগনস্টিক রিপোর্ট ডাউনলোড করুন</p>
+            </a>
+        </section>
+
+        <!-- হাসপাতালের বৈশিষ্ট্য (ছবি অনুযায়ী) -->
+        <section class="traits-container">
+            <div class="trait-item">
+                <i class="fas fa-award"></i>
+                <div class="trait-text">
+                    <strong>সেরা বিশেষজ্ঞ</strong>
                     <p>দেশের নামকরা হাসপাতালের অভিজ্ঞ ডাক্তারগণ এখানে নিয়মিত বসেন।</p>
                 </div>
             </div>
-
-            <div class="feature-item">
+            <div class="trait-item">
                 <i class="fas fa-microscope"></i>
-                <div class="f-text">
-                    <h3>আধুনিক ল্যাব</h3>
+                <div class="trait-text">
+                    <strong>আধুনিক ল্যাব</strong>
                     <p>নির্ভুল প্যাথলজি রিপোর্টের জন্য আমাদের রয়েছে অত্যাধুনিক প্রযুক্তি।</p>
                 </div>
             </div>
-
-            <div class="feature-item">
+            <div class="trait-item">
                 <i class="fas fa-procedures"></i>
-                <div class="f-text">
-                    <h3>উন্নত কেবিন</h3>
+                <div class="trait-text">
+                    <strong>উন্নত কেবিন</strong>
                     <p>রোগীদের আরামদায়ক অবস্থানের জন্য আমাদের রয়েছে শীতাতপ নিয়ন্ত্রিত কেবিন।</p>
                 </div>
             </div>
         </section>
+
     </main>
 
-    <footer>
-        <p>&copy; 2026 খাজা বদরুদদোজা মডার্ন হাসপাতাল। সকল অধিকার সংরক্ষিত।</p>
+    <footer class="fixed-bottom">
+        <p>&copy; ২০২৬ খাজা বদরুদদোজা মডার্ন হাসপাতাল। আজিজ ম্যানশন, সফিপুর, গাজীপুর।</p>
     </footer>
 
+    <script src="management.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
