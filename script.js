@@ -1,215 +1,189 @@
-/* 
-================================================================
-   KHAJA BADRUDDOJA MODERN HOSPITAL - MASTER SCRIPT
-   সাপোর্ট: ডিজিটাল ঘড়ি, এডভান্সড অ্যাডমিন কন্ট্রোল, ফি ও শিডিউল লজিক
-================================================================
-*/
-
-// --- ১. গ্লোবাল ভেরিয়েবলসমূহ ---
-let currentDayDoctors = [];
-let activeDayName = '';
-const daysArray = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-const bnDays = {'Saturday':'শনিবার','Sunday':'রবিবার','Monday':'সোমবার','Tuesday':'মঙ্গলবার','Wednesday':'বুধবার','Thursday':'বৃহস্পতিবার','Friday':'শুক্রবার'};
-
-// --- ২. ডিজিটাল ঘড়ি ও তারিখ (সব পেজের জন্য) ---
-function startClock() {
-    const clockEl = document.getElementById('digitalClock');
-    const dateEl = document.getElementById('currentDate');
+// ১. পেজ লোড হওয়ার পর ড্রপডাউন পপুলেট করা
+window.onload = () => {
+    if (typeof doctors === 'undefined') {
+        console.error("ডাটাবেজ ফাইল (data.js) পাওয়া যায়নি!");
+        return;
+    }
     
-    setInterval(() => {
-        const now = new Date();
-        if (clockEl) clockEl.innerText = now.toLocaleTimeString('en-US', { hour12: true });
-        if (dateEl) {
-            dateEl.innerText = now.toLocaleDateString('bn-BD', { 
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+    const selectors = ['deptSelectDay', 'deptSelectFee', 'deptSelectFull'];
+    const depts = [...new Set(doctors.map(d => d.dept))].sort();
+    
+    selectors.forEach(sId => {
+        const el = document.getElementById(sId);
+        if (el) {
+            depts.forEach(d => {
+                const option = document.createElement('option');
+                option.value = d;
+                option.textContent = d;
+                el.appendChild(option);
             });
         }
-    }, 1000);
-}
-
-// --- ৩. রানিং হেডলাইন কন্ট্রোল ---
-function loadHeadline() {
-    const savedHeadline = localStorage.getItem('hospitalHeadline');
-    const marquee = document.getElementById('mainMarquee');
-    if (marquee && savedHeadline) {
-        marquee.innerText = savedHeadline;
-    }
-}
-
-function updateHeadline() {
-    const text = document.getElementById('inpHeadline').value;
-    if (text) {
-        localStorage.setItem('hospitalHeadline', text);
-        alert("হেডলাইন আপডেট হয়েছে!");
-        location.reload();
-    }
-}
-
-function clearHeadline() {
-    localStorage.removeItem('hospitalHeadline');
-    alert("হেডলাইন মুছে ফেলা হয়েছে।");
-    location.reload();
-}
-
-// --- ৪. ফি ম্যানেজমেন্ট (সেটিং পেজ) ---
-function loadDocsForFee() {
-    const dept = document.getElementById('feeDeptSelect').value;
-    const docSelect = document.getElementById('feeDocSelect');
-    docSelect.innerHTML = '<option value="">-- ডাক্তার নির্বাচন করুন --</option>';
-    
-    if(!dept) { docSelect.disabled = true; return; }
-
-    const filtered = doctorFeesData.filter(d => d.specialty.includes(dept));
-    filtered.forEach(d => {
-        let opt = document.createElement('option');
-        opt.value = d.name; opt.text = d.name;
-        docSelect.appendChild(opt);
     });
-    docSelect.disabled = false;
-}
+};
 
-function loadSelectedDocFees() {
-    const name = document.getElementById('feeDocSelect').value;
-    const editArea = document.getElementById('feeEditArea');
-    if(!name) { editArea.classList.add('hidden'); return; }
-
-    const customFees = JSON.parse(localStorage.getItem('customFees')) || {};
-    const baseDoc = doctorFeesData.find(d => d.name === name);
-
-    document.getElementById('editFee1').value = customFees[name]?.firstFee || baseDoc.firstFee;
-    document.getElementById('editFee2').value = customFees[name]?.secondFee || baseDoc.secondFee;
-    editArea.classList.remove('hidden');
-}
-
-function saveUpdatedFees() {
-    const name = document.getElementById('feeDocSelect').value;
-    const f1 = document.getElementById('editFee1').value;
-    const f2 = document.getElementById('editFee2').value;
-    let customFees = JSON.parse(localStorage.getItem('customFees')) || {};
+// ২. সেকশন পরিবর্তনের লজিক
+function showSection(id, btn) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
     
-    customFees[name] = { firstFee: f1, secondFee: f2 };
-    localStorage.setItem('customFees', JSON.stringify(customFees));
-    alert("ফি সেভ হয়েছে!");
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active-link'));
+    btn.classList.add('active-link');
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// --- ৫. চেম্বার ও রুম কন্ট্রোল (এডভান্সড সেটিং) ---
-function loadDocsForSch() {
-    const dept = document.getElementById('schDeptSelect').value;
-    const docSelect = document.getElementById('schDocSelect');
-    docSelect.innerHTML = '<option value="">-- ডাক্তার নির্বাচন করুন --</option>';
-    if(!dept) { docSelect.disabled = true; return; }
+// ৩. ডাক্তার কার্ড জেনারেটর ফাংশন
+function createDocCard(doc, currentSchedule = null) {
+    // যদি শিডিউল নির্দিষ্ট না থাকে (সার্চের ক্ষেত্রে), তবে সব দিনের নাম দেখাবে
+    const scheduleBadges = currentSchedule 
+        ? `<span class="badge badge-time"><i class="fa-solid fa-clock"></i> ${currentSchedule.time}</span>
+           <span class="badge badge-room"><i class="fa-solid fa-door-open"></i> রুম: ${currentSchedule.room}</span>`
+        : `<div style="font-size:12px; color:#64748b; margin-top:8px;"><b>শিডিউল:</b> ${doc.schedules.map(s => s.day).join(', ')}</div>`;
 
-    const filtered = doctorFeesData.filter(d => d.specialty.includes(dept));
+    return `
+        <div class="doctor-card">
+            <div class="doc-name">${doc.name}</div>
+            <div class="doc-spec">${doc.spec}</div>
+            <div class="card-meta">
+                <span class="badge"><i class="fa-solid fa-stethoscope"></i> ${doc.dept}</span>
+                <span class="badge badge-fee"><i class="fa-solid fa-wallet"></i> ফি: ${doc.fee1}/-</span>
+                ${scheduleBadges}
+            </div>
+            <div style="font-size:12px; color:#94a3b8;">${doc.from}</div>
+        </div>`;
+}
+
+// ৪. সার্চ লজিক
+function searchDoctors() {
+    const query = document.getElementById('mainSearch').value.toLowerCase();
+    const results = document.getElementById('searchResults');
+    
+    if(query.length < 2) { 
+        results.innerHTML = ''; 
+        return; 
+    }
+
+    const filtered = doctors.filter(d => 
+        d.name.toLowerCase().includes(query) || 
+        d.dept.toLowerCase().includes(query) ||
+        d.spec.toLowerCase().includes(query)
+    );
+
+    results.innerHTML = filtered.length 
+        ? filtered.map(d => createDocCard(d)).join('') 
+        : '<div class="no-data">কোন ডাক্তার বা বিভাগ পাওয়া যায়নি।</div>';
+}
+
+// ৫. দিনের ফিল্টার লজিক (সকাল/বিকাল ভাগ করা)
+function filterDay() {
+    const day = document.getElementById('daySelect').value;
+    const dept = document.getElementById('deptSelectDay').value;
+    const res = document.getElementById('dayResults');
+    
+    if(!day) { 
+        res.innerHTML = '<div class="no-data">অনুগ্রহ করে একটি দিন সিলেক্ট করুন।</div>'; 
+        return; 
+    }
+
+    const filtered = doctors.filter(d => 
+        (!dept || d.dept === dept) && 
+        d.schedules.some(s => s.day === day)
+    );
+    
+    let morningHtml = "";
+    let afternoonHtml = "";
+
     filtered.forEach(d => {
-        let opt = document.createElement('option');
-        opt.value = d.name; opt.text = d.name;
-        docSelect.appendChild(opt);
+        const s = d.schedules.find(sc => sc.day === day);
+        // লজিক: AM থাকলে বা দুপুর ১টার আগে হলে সকালের তালিকায়
+        if(s.time.includes("AM") && !s.time.startsWith("12")) {
+            morningHtml += createDocCard(d, s);
+        } else {
+            afternoonHtml += createDocCard(d, s);
+        }
     });
-    docSelect.disabled = false;
+
+    res.innerHTML = `
+        <div class="shift-title shift-morning"><i class="fa-solid fa-sun"></i> সকালের তালিকা</div>
+        ${morningHtml || '<div style="padding:10px; color:#94a3b8;">সকালে কোন ডাক্তার নেই।</div>'}
+        <div class="shift-title shift-afternoon"><i class="fa-solid fa-moon"></i> বিকাল ও সন্ধ্যার তালিকা</div>
+        ${afternoonHtml || '<div style="padding:10px; color:#94a3b8;">বিকালে কোন ডাক্তার নেই।</div>'}
+    `;
 }
 
-function loadWeeklyControl() {
-    const name = document.getElementById('schDocSelect').value;
-    const area = document.getElementById('weeklyControlArea');
-    area.innerHTML = "";
-    if(!name) { area.classList.add('hidden'); return; }
+// ৬. ফি ফিল্টার লজিক
+function filterFees() {
+    const dept = document.getElementById('deptSelectFee').value;
+    const res = document.getElementById('feeResults');
+    
+    if(!dept) { 
+        res.innerHTML = ''; 
+        return; 
+    }
 
-    daysArray.forEach(day => {
-        let docs = JSON.parse(localStorage.getItem(`doctors_${day}`)) || [];
-        let doc = docs.find(d => d.name === name);
+    const filtered = doctors.filter(d => d.dept === dept);
+    
+    let html = `
+        <table>
+            <thead>
+                <tr>
+                    <th>ডাক্তারের নাম</th>
+                    <th>নতুন ভিজিট</th>
+                    <th>পুরাতন ভিজিট</th>
+                </tr>
+            </thead>
+            <tbody>`;
+            
+    filtered.forEach(d => {
+        html += `
+            <tr>
+                <td><strong>${d.name}</strong><br><small>${d.spec}</small></td>
+                <td><b style="color:var(--accent)">${d.fee1}/-</b></td>
+                <td>${d.fee2 > 0 ? d.fee2 + '/-' : '---'}</td>
+            </tr>`;
+    });
 
-        if(doc) {
-            const card = document.createElement('div');
-            card.className = 'day-admin-card';
-            const isOff = doc.status === 'OFF';
-            card.innerHTML = `
-                <div style="background:#004A99; color:white; padding:5px; border-radius:5px;">${bnDays[day]}</div>
-                <div style="margin:10px 0;">
-                    রুম: <input type="text" id="rm_${day}" value="${doc.room}" style="width:60px; text-align:center;">
-                    <button onclick="saveSingleRoom('${day}', '${name}')" class="btn-save-sm">রুম সেভ</button>
+    res.innerHTML = html + `</tbody></table>`;
+}
+
+// ৭. পূর্ণাঙ্গ শিডিউল লজিক
+function updateDocList() {
+    const dept = document.getElementById('deptSelectFull').value;
+    const docSelect = document.getElementById('doctorSelect');
+    docSelect.innerHTML = '<option value="">ডাক্তার সিলেক্ট করুন</option>';
+    
+    doctors.filter(d => d.dept === dept).forEach(d => {
+        const option = document.createElement('option');
+        option.value = d.name;
+        option.textContent = d.name;
+        docSelect.appendChild(option);
+    });
+    document.getElementById('fullResults').innerHTML = "";
+}
+
+function showFullSchedule() {
+    const name = document.getElementById('doctorSelect').value;
+    const res = document.getElementById('fullResults');
+    
+    if(!name) return;
+    
+    const d = doctors.find(doc => doc.name === name);
+    res.innerHTML = `
+        <div class="doctor-card" style="border-left-color: var(--accent);">
+            <div class="doc-name">${d.name}</div>
+            <div class="doc-spec">${d.spec}</div>
+            <div style="background:#f1f5f9; padding:15px; border-radius:10px; margin-top:15px;">
+                <h4 style="margin:0 0 10px 0; color:var(--primary);">সাপ্তাহিক চেম্বার সময়:</h4>
+                ${d.schedules.map(s => `
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #e2e8f0; font-size:14px;">
+                        <span><b>${s.day}</b></span>
+                        <span>${s.time} (রুম: ${s.room})</span>
+                    </div>
+                `).join('')}
+                <div style="margin-top:12px; font-weight:bold; color:var(--accent);">
+                    ভিজিট ফি: ${d.fee1}/- ${d.fee2 > 0 ? `(পুরাতন: ${d.fee2}/-)` : ''}
                 </div>
-                <button onclick="toggleDayChamber('${day}', '${name}')" class="action-btn ${isOff ? 'btn-on' : 'btn-off'}" style="width:100%;">
-                    ${isOff ? 'চেম্বার খুলুন' : 'চেম্বার বন্ধ করুন'}
-                </button>
-            `;
-            area.appendChild(card);
-        }
-    });
-    area.classList.remove('hidden');
-}
-
-function saveSingleRoom(day, name) {
-    let docs = JSON.parse(localStorage.getItem(`doctors_${day}`));
-    let idx = docs.findIndex(d => d.name === name);
-    docs[idx].room = document.getElementById(`rm_${day}`).value;
-    localStorage.setItem(`doctors_${day}`, JSON.stringify(docs));
-    alert("রুম আপডেট হয়েছে!");
-}
-
-function toggleDayChamber(day, name) {
-    let docs = JSON.parse(localStorage.getItem(`doctors_${day}`));
-    let idx = docs.findIndex(d => d.name === name);
-    docs[idx].status = (docs[idx].status === 'ON') ? 'OFF' : 'ON';
-    localStorage.setItem(`doctors_${day}`, JSON.stringify(docs));
-    loadWeeklyControl(); // UI Refresh
-}
-
-// --- ৬. শিডিউল পেজ লজিক (Sat-Fri) ---
-function initPage(day) {
-    activeDayName = day;
-    startClock();
-    loadHeadline();
-    const saved = localStorage.getItem(`doctors_${activeDayName}`);
-    currentDayDoctors = saved ? JSON.parse(saved) : (initialScheduleData[activeDayName] || []);
-    renderDailyTable();
-}
-
-function renderDailyTable() {
-    const tableBody = document.getElementById('tableBody');
-    if(!tableBody) return;
-    tableBody.innerHTML = "";
-    let count = 0;
-
-    ["সকাল", "বিকেল"].forEach(shift => {
-        const shiftDocs = currentDayDoctors.filter(d => d.shift === shift);
-        if(shiftDocs.length > 0) {
-            tableBody.innerHTML += `<tr><td colspan="6" class="shift-title">${shift} শিফট</td></tr>`;
-            shiftDocs.forEach(doc => {
-                count++;
-                const isOff = doc.status === 'OFF';
-                tableBody.innerHTML += `
-                    <tr class="${isOff ? 'closed-row' : ''}">
-                        <td>${count}</td>
-                        <td><strong>${doc.name}</strong></td>
-                        <td>${doc.specialty}</td>
-                        <td>${doc.origin}</td>
-                        <td style="text-align:center; font-weight:bold;">${doc.room}</td>
-                        <td>${doc.time}</td>
-                    </tr>`;
-            });
-        }
-    });
-}
-
-// --- ৭. সিস্টেম ফাংশন ---
-function resetSystem() {
-    if(confirm("সব সেটিং এবং আপডেট করা ডাটা মুছে যাবে! আপনি কি নিশ্চিত?")) {
-        localStorage.clear();
-        location.reload();
-    }
-}
-
-function initHomePage() {
-    startClock();
-    loadHeadline();
-}
-
-// নিরাপত্তা চেক
-function checkAccess() {
-    const access = sessionStorage.getItem('adminIn');
-    if(!access) {
-        const pin = prompt("অ্যাডমিন পিন দিন:");
-        if(pin === "1234") { sessionStorage.setItem('adminIn', 'true'); }
-        else { alert("ভুল পিন!"); window.location.href = "index.html"; }
-    }
+            </div>
+            <div style="margin-top:10px; font-size:13px; color:#64748b;">${d.from}</div>
+        </div>`;
 }
